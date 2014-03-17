@@ -1,0 +1,68 @@
+/**
+ * Sections
+ */
+
+// HTML 5 Elements
+
+aside {
+    display: block;
+    width: 80%;
+    position: absolute;
+    bottom: 0;
+    top: 0;
+
+    &.left {
+        @include single-transition(left, 0.5s);
+
+        left: -80%;
+
+        &.active {
+            left: 0%;
+        }
+    }
+
+    &.right {
+        @include single-transition(right, 0.5s);
+
+        right: -80%;
+
+        &.active {
+            right: 0%;
+        }
+    }
+}
+
+
+// Canvas
+
+.canvas {
+    @include box-sizing(border-box);
+
+    &.canvas-padded-xs {
+        padding: 8px;
+    }
+
+    &.canvas-padded-s {
+        padding: 16px;
+    }
+
+    &.canvas-padded {
+        padding: 24px;
+    }
+
+    &.canvas-padded-l {
+        padding: 36px;
+    }
+
+    &.canvas-padded-xl {
+        padding: 48px;
+    }
+
+    &.slate {
+        background: $slate;
+    }
+
+    &.slate-dark {
+        background: $slate-dark;
+    }
+}

@@ -4,16 +4,46 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, user-scalable=no">
     <title>World of Warcraft Player Rater</title>
-    <link rel="stylesheet" href="css/app.css"/>
+    <link href="http://fonts.googleapis.com/css?family=Lobster" rel="stylesheet" type="text/css" />
+    <link href="//fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,500,400italic,500italic" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="css/app.css" />
 </head>
 <body>
-    <ul class="menu">
+    <header>
+        <div class="canvas canvas-padded-s slate">
+            <nav class="primary pull-left">
+                <ul>
+                    <li><a aside-menu-button href="#" data-parent="settings"><i>Cog</i></a></li>
+                </ul>
+            </nav>
+
+            <section class="title">Player Rater</section>
+        </div>
+    </header>
+
+    <aside id="settings" class="canvas slate left settings" ng-click="doSomething()">
+        <header class="canvas canvas-padded-s slate-dark title">Settings</header>
+
+        <div class="canvas canvas-padded">
+            <form method="post" action="">
+                <select name="region">
+                    <option value="eu">Europe</option>
+                    <option value="eu">United States</option>
+                </select>
+                <input name="submit" type="submit" />
+            </form>
+        </div>
+    </aside>
+
+<!--     <ul class="menu">
         <li><a href="#/">view1</a></li>
         <li><a href="#/view2">view2</a></li>
-    </ul>
+    </ul> -->
 
-    <div ng-view class="view"></div>
+    <ng-view class="view"></ng-view>
 
+
+    <script src="//code.jquery.com/jquery-2.1.0.min.js"></script>
     <!-- In production use:
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
     -->
