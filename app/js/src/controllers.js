@@ -3,11 +3,15 @@
 /* Controllers */
 
 angular.module('wowpr.controllers', [])
-  .controller('Home', ['$scope', 'Test',
-    function($scope, Test) {
-      console.log(Test.foo());
+  .controller('HomeCtrl', ['$scope', 'ApiClient',
+    function($scope, ApiClient) {
+      console.log(ApiClient.getConstructed());
 
-      $scope.test = { test: Test.foo() };
+      $scope.test = { test: ApiClient.name };
+
+      this.doSomething = function() {
+        console.log('Doing something');
+      };
     }
   ])
   .controller('MyCtrl2', [function() {

@@ -1,3 +1,14 @@
+var ApiClient = function(injected) {
+  var constructed = injected;
+
+  return {
+    name: 'ApiClient',
+    getConstructed: function() {
+      return constructed;
+    }
+  }
+};
+
 'use strict';
 
 
@@ -11,7 +22,7 @@ angular.module('wowpr', [
   'wowpr.controllers'
 ]).
 config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/', {templateUrl: 'partials/home.html', controller: 'Home'});
+  $routeProvider.when('/', {templateUrl: 'partials/home.html', controller: 'HomeCtrl'});
   $routeProvider.when('/view2', {templateUrl: 'partials/partial2.html', controller: 'MyCtrl2'});
   $routeProvider.otherwise({redirectTo: '/'});
 }]);
@@ -21,11 +32,15 @@ config(['$routeProvider', function($routeProvider) {
 /* Controllers */
 
 angular.module('wowpr.controllers', [])
-  .controller('Home', ['$scope', 'Test',
-    function($scope, Test) {
-      console.log(Test.foo());
+  .controller('HomeCtrl', ['$scope', 'ApiClient',
+    function($scope, ApiClient) {
+      console.log(ApiClient.getConstructed());
 
-      $scope.test = { test: Test.foo() };
+      $scope.test = { test: ApiClient.name };
+
+      this.doSomething = function() {
+        console.log('Doing something');
+      };
     }
   ])
   .controller('MyCtrl2', [function() {
@@ -63,8 +78,7 @@ angular.module('wowpr.filters', []).
 angular.module('wowpr.services', [])
   .service('Test', [function() {
     return {
-        foo: function() {
-            return 'bar';
-        }
-    };
-  }]);
+      test: 'test'
+    }
+  }])
+  .service('ApiClient', ['Test', ApiClient]);

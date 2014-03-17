@@ -6,8 +6,7 @@
 angular.module('wowpr.services', [])
   .service('Test', [function() {
     return {
-        foo: function() {
-            return 'bar';
-        }
-    };
-  }]);
+      test: 'test'
+    }
+  }])
+  .service('ApiClient', ['Test', ApiClient]);
