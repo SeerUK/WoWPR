@@ -65,7 +65,7 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-watch');
 
-  grunt.regsiterTask('default', ['css', 'js']);
-  grunt.regsiterTask('css', ['compass']);
-  grunt.regsiterTask('js', ['concat', 'uglify']);
+  grunt.registerTask('default', ['css', 'js']);
+  grunt.registerTask('css', ['compass']);
+  grunt.registerTask('js', ['concat', 'uglify']);
 };

@@ -1,12 +1,19 @@
 {
-  "name": "angularjs-seed",
-  "description": "A starter project for AngularJS",
-  "repository": "https://github.com/angular/angular-seed",
+  "name": "WoWPR-angularjs-seed",
+  "description": "World of Warcraft Player Rater",
+  "repository": "https://github.com/SeerUK/WoWPR",
+  "main": "Gruntfile.js",
   "devDependencies": {
     "phantomjs" : "~1.9",
     "karma" : "~0.10",
     "karma-junit-reporter" : "~0.1",
     "karma-jasmine" : "~0.1",
-    "protractor" : "~0.17.0"
+    "protractor" : "~0.17.0",
+    "grunt": "~0.4.1",
+    "grunt-cli": "~0.1.11",
+    "grunt-contrib-compass": "~0.7.0",
+    "grunt-contrib-concat": "~0.3.0",
+    "grunt-contrib-uglify": "~0.2.7",
+    "grunt-contrib-watch": "~0.5.3"
   }
 }
