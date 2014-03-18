@@ -4,6 +4,16 @@
 
 // HTML 5 Elements
 
+
+body.aside-active {
+    &.left {
+
+        &.active {
+            left: 80%;
+        }
+    }
+}
+
 aside {
     display: block;
     width: 80%;
@@ -16,9 +26,9 @@ aside {
 
         left: -80%;
 
-        &.active {
-            left: 0%;
-        }
+        // &.active {
+        //     left: 0%;
+        // }
     }
 
     &.right {
@@ -26,9 +36,9 @@ aside {
 
         right: -80%;
 
-        &.active {
-            right: 0%;
-        }
+        // &.active {
+        //     right: 0%;
+        // }
     }
 }
 

@@ -6,10 +6,17 @@
 
 html {
     height: 100%;
+    overflow: hidden;
+    overflow-y: auto;
 }
 
 body {
+    @include single-transition(all, 0.5s);
+
     min-height: 100%;
+    position: relative;
+    left: 0;
+    right: 0;
 }
 
 
