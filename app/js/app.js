@@ -20,11 +20,64 @@ var ApiClient = function($http, $q) {
 
 
   return {
+    /**
+     * Find a character
+     *
+     * @param  string region
+     * @param  string realm
+     * @param  string name
+     * @return deferred
+     */
     findCharacter: function(region, realm, name) {
       return request(
         region,
         '/api/wow/character/' + realm + '/' + name
       );
+    },
+
+    /**
+     * Find all realms
+     *
+     * @param  string region
+     * @return deferred
+     */
+    findRealms: function(region) {
+      return request(
+        region,
+        '/api/wow/realm/status'
+      );
+    }
+  }
+};
+
+var ConfigManager = function() {
+  /**
+   * @type Object
+   */
+  var keys = {};
+
+  return {
+    /**
+     * Get a config value by its key
+     *
+     * @param  string key
+     * @return string
+     */
+    get: function(key) {
+      return keys[key] || false;
+    },
+
+    /**
+     * Set a config value by its key
+     *
+     * @param  string key
+     * @param  string value
+     * @return ConfigManager
+     */
+    set: function(key, value) {
+      keys[key] = value;
+
+      return this;
     }
   }
 };
@@ -52,17 +105,27 @@ config(['$routeProvider', function($routeProvider) {
 /* Controllers */
 
 angular.module('wowpr.controllers', [])
-  .controller('HomeCtrl', ['$scope', 'ApiClient',
-    function($scope, ApiClient) {
-      var characterPromise = ApiClient.findCharacter('eu', 'burning-legion', 'sylnai');
-      characterPromise.then(function(character) {
-        $scope.character = character;
+  .controller('HomeCtrl', ['$scope', '$q', 'ApiClient', 'ConfigManager',
+    function($scope, $q, ApiClient, ConfigManager) {
+      var region = ConfigManager.get('region');
 
-        $scope.doSomething = function() {
-          console.log('Doing something');
+      console.log(region);
+
+      ApiClient.findRealms('eu').then(function(realms) {
+        $scope.realms = realms.realms;
+
+        $scope.doSearch = function() {
+          var characterPromise = ApiClient.findCharacter(
+            'eu',
+            $scope.formData.realm,
+            $scope.formData.name
+          );
+
+          characterPromise.then(function(response) {
+            $scope.response = response;
+          });
         };
       });
-
     }
   ])
   .controller('MyCtrl2', [function() {
@@ -135,4 +198,6 @@ angular.module('wowpr.services', [])
       test: 'test'
     }
   }])
-  .service('ApiClient', ['$http', '$q', ApiClient]);
+  .service('ApiClient', ['$http', '$q', ApiClient])
+  .service('ConfigManager', [ConfigManager])
+;

@@ -1,11 +1,41 @@
+<header>
+    <nav class="primary pull-left">
+        <ul>
+            <li><a aside-menu-button href="#" data-parent="settings"><i class="flaticon stroke settings-1"></i></a></li>
+        </ul>
+    </nav>
+    <div class="canvas slate">
+        <section class="title">Player Rater</section>
+    </div>
+</header>
+
+<aside id="settings" class="canvas slate left settings" ng-click="doSomething()">
+    <header class="canvas slate-dark title">Settings</header>
+
+    <div class="canvas canvas-padded">
+        <form method="post" action="">
+            <select name="region" class="form-el">
+                <option value="eu">Europe</option>
+                <option value="us">United States</option>
+            </select>
+            <input name="submit" class="btn btn-block btn-turquoise" type="submit" value="Set Region" />
+        </form>
+    </div>
+</aside>
+
 <div class="canvas canvas-padded grey-lighter">
-    <select class="form-el" name="wowpr-ipt-realm">
-        <option>Realm...</option>
+    <select class="form-el"
+        ng-model="formData.realm"
+        ng-init="formData.realm = formData.realm || options[0].value"
+        ng-options="realm.slug as realm.name for realm in realms"
+    >
+        <option value="">Realms...</option>
     </select>
 
-    <input type="text" class="form-el" name="wowpr-ipt-name" placeholder="Name..." />
+    <input type="text" class="form-el" placeholder="Name..." ng-model="formData.name" />
 
-    <input type="submit" class="btn btn-block btn-success" name="wowpr-ipt-submit" value="Search" ng-click="doSomething()" />
+    <input type="submit" class="btn btn-block btn-success" name="wowpr-ipt-submit" value="Search" ng-click="doSearch()" />
 
-    {{ character.name }}
+    {{ formData.realm }}
+    {{ formData.name }}
 </div>

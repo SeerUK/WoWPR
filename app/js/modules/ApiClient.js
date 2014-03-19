@@ -20,10 +20,31 @@ var ApiClient = function($http, $q) {
 
 
   return {
+    /**
+     * Find a character
+     *
+     * @param  string region
+     * @param  string realm
+     * @param  string name
+     * @return deferred
+     */
     findCharacter: function(region, realm, name) {
       return request(
         region,
         '/api/wow/character/' + realm + '/' + name
+      );
+    },
+
+    /**
+     * Find all realms
+     *
+     * @param  string region
+     * @return deferred
+     */
+    findRealms: function(region) {
+      return request(
+        region,
+        '/api/wow/realm/status'
       );
     }
   }

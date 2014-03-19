@@ -9,4 +9,6 @@ angular.module('wowpr.services', [])
       test: 'test'
     }
   }])
-  .service('ApiClient', ['$http', '$q', ApiClient]);
+  .service('ApiClient', ['$http', '$q', ApiClient])
+  .service('ConfigManager', [ConfigManager])
+;

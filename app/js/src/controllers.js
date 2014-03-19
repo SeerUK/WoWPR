@@ -3,17 +3,27 @@
 /* Controllers */
 
 angular.module('wowpr.controllers', [])
-  .controller('HomeCtrl', ['$scope', 'ApiClient',
-    function($scope, ApiClient) {
-      var characterPromise = ApiClient.findCharacter('eu', 'burning-legion', 'sylnai');
-      characterPromise.then(function(character) {
-        $scope.character = character;
+  .controller('HomeCtrl', ['$scope', '$q', 'ApiClient', 'ConfigManager',
+    function($scope, $q, ApiClient, ConfigManager) {
+      var region = ConfigManager.get('region');
 
-        $scope.doSomething = function() {
-          console.log('Doing something');
+      console.log(region);
+
+      ApiClient.findRealms('eu').then(function(realms) {
+        $scope.realms = realms.realms;
+
+        $scope.doSearch = function() {
+          var characterPromise = ApiClient.findCharacter(
+            'eu',
+            $scope.formData.realm,
+            $scope.formData.name
+          );
+
+          characterPromise.then(function(response) {
+            $scope.response = response;
+          });
         };
       });
-
     }
   ])
   .controller('MyCtrl2', [function() {
