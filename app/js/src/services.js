@@ -9,4 +9,4 @@ angular.module('wowpr.services', [])
       test: 'test'
     }
   }])
-  .service('ApiClient', ['Test', ApiClient]);
+  .service('ApiClient', ['$http', '$q', ApiClient]);

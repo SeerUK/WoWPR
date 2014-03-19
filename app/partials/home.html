@@ -1,9 +1,11 @@
-<div class="canvas canvas-padded grey-lighter" ng-controller="HomeCtrl as home">
+<div class="canvas canvas-padded grey-lighter">
     <select class="form-el" name="wowpr-ipt-realm">
         <option>Realm...</option>
     </select>
 
     <input type="text" class="form-el" name="wowpr-ipt-name" placeholder="Name..." />
 
-    <input type="submit" class="btn btn-block btn-success" name="wowpr-ipt-submit" value="Search" ng-click="home.doSomething()" />
+    <input type="submit" class="btn btn-block btn-success" name="wowpr-ipt-submit" value="Search" ng-click="HomeCtrl.doSomething()" />
+
+    {{ character.name }}
 </div>
