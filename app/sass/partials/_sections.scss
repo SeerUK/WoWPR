@@ -4,14 +4,14 @@
 
 // HTML 5 Elements
 
-
-body.aside-active {
-    &.left {
-
-        &.active {
-            left: 80%;
-        }
-    }
+[aside-menu-button] {
+    background: $slate-dark;
+    color: white;
+    display: inline-block;
+    height: 50px;
+    line-height: 50px;
+    padding: 0 16px;
+    text-decoration: none;
 }
 
 aside {
@@ -22,23 +22,24 @@ aside {
     top: 0;
 
     &.left {
+        @include box-shadow(0 0 10px 5px rgba(0,0,0,0.3));
         @include single-transition(left, 0.5s);
 
-        left: -80%;
+        left: -90%;
 
-        // &.active {
-        //     left: 0%;
-        // }
+        &.active {
+            left: 0%;
+        }
     }
 
     &.right {
         @include single-transition(right, 0.5s);
 
-        right: -80%;
+        right: -90%;
 
-        // &.active {
-        //     right: 0%;
-        // }
+        &.active {
+            right: 0%;
+        }
     }
 }
 
@@ -47,6 +48,10 @@ aside {
 
 .canvas {
     @include box-sizing(border-box);
+
+    &:last-child {
+        margin-bottom: 0;
+    }
 
     &.canvas-padded-xs {
         padding: 8px;
@@ -66,6 +71,26 @@ aside {
 
     &.canvas-padded-xl {
         padding: 48px;
+    }
+
+    &.grey-lighter {
+        background: $grey-lighter;
+    }
+
+    &.grey-light {
+        background: $grey-light;
+    }
+
+    &.grey {
+        background: $grey;
+    }
+
+    &.grey-dark {
+        background: $grey-dark;
+    }
+
+    &.grey-darker {
+        background: $grey-darker;
     }
 
     &.slate {

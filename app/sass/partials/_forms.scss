@@ -1,0 +1,22 @@
+/**
+ * Forms
+ */
+
+// Form Elements
+
+.form-el {
+    @include border-radius(3px);
+    @include box-shadow(0 2px 0 $grey-light);
+    @include box-sizing(border-box);
+
+    background: white;
+    border: none;
+    display: block;
+    font-family: $font-family-base;
+    font-size: $font-size-base;
+    font-weight: $font-weight-base;
+    margin-bottom: 20px;
+    outline: none;
+    padding: 14px;
+    width: 100%;
+}

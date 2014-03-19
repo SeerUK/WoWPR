@@ -1,0 +1,147 @@
+/**
+ * Buttons
+ */
+
+// Buttons
+
+.btn {
+    @include border-radius(3px);
+    @include box-sizing(border-box);
+    @include box-shadow(0 2px 0 $grey-light);
+    @include user-select(none);
+
+    background: $grey-lighter;
+    border: none;
+    color: $black;
+    cursor: pointer;
+    display: block;
+    font-family: $font-family-base;
+    font-size: $font-size-base;
+    font-weight: $font-weight-bold;
+    margin: 0 0 20px 0;
+    line-height: 21px;
+    outline: none;
+    padding: 14px;
+    text-align: center;
+    text-decoration: none;
+
+    &:disabled {
+        @include opacity(0.6);
+    }
+
+
+    &:not(:disabled):hover,
+    &:not(:disabled).hover {
+        background: darken($white, 3%);
+        color: $black;
+    }
+
+    &.btn-block {
+        display: block;
+        width: 100%;
+    }
+
+    &,
+    &.btn-white,
+    &.btn-success,
+    &.btn-warning,
+    &.btn-danger,
+    &.btn-info {
+        &:not(:disabled):active,
+        &:not(:disabled).active {
+            @include box-shadow(none);
+            @include translate(0, 2px);
+        }
+    }
+
+    &.btn-white {
+        @include box-shadow(0 2px 0 $grey-light);
+
+        background: $white;
+        color: $black;
+
+        &:not(:disabled):hover,
+        &:not(:disabled).hover {
+            background: darken($white, 3%);
+            color: $black;
+        }
+    }
+
+    &.btn-success {
+        @include box-shadow(0 2px 0 $green-dark);
+
+        background: $green;
+        color: $white;
+
+        &:not(:disabled):hover,
+        &:not(:disabled).hover {
+            background: darken($green, 3%);
+            color: $white;
+        }
+    }
+
+    &.btn-warning {
+        @include box-shadow(0 2px 0 $orange-dark);
+
+        background: $orange;
+        color: $white;
+
+        &:not(:disabled):hover,
+        &:not(:disabled).hover {
+            background: darken($orange, 3%);
+            color: $white;
+        }
+    }
+
+    &.btn-danger {
+        @include box-shadow(0 2px 0 $red-dark);
+
+        background: $red;
+        color: $white;
+
+        &:not(:disabled):hover,
+        &:not(:disabled).hover {
+            background: darken($red, 3%);
+            color: $white;
+        }
+    }
+
+    &.btn-info {
+        @include box-shadow(0 2px 0 $blue-dark);
+
+        background: $blue;
+        color: $white;
+
+        &:not(:disabled):hover,
+        &:not(:disabled).hover {
+            background: darken($blue, 3%);
+            color: $white;
+        }
+    }
+
+    &.btn-slate {
+        @include box-shadow(0 2px 0 lighten($slate-dark, 9%));
+
+        background: lighten($slate, 9%);
+        color: $white;
+
+        &:not(:disabled):hover,
+        &:not(:disabled).hover {
+            background: lighten($slate, 12%);
+            color: $white;
+        }
+    }
+
+    &.btn-turquoise {
+        @include box-shadow(0 2px 0 $turquoise-dark);
+
+        background: $turquoise;
+        color: $white;
+
+        &:not(:disabled):hover,
+        &:not(:disabled).hover {
+            background: lighten($turquoise, 3%);
+            color: $white;
+        }
+    }
+}

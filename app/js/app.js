@@ -61,32 +61,10 @@ angular.module('wowpr.directives', [])
 
         var _hide = function() {
           $aside.removeClass('active');
-          $body.removeClass('aside-active');
-
-          if ($aside.hasClass('left')) {
-            $body.removeClass('active');
-            $body.removeClass('left');
-          }
-
-          if ($aside.hasClass('right')) {
-            $body.removeClass('active');
-            $body.removeClass('right');
-          }
         };
 
         var _show = function() {
           $aside.addClass('active');
-          $body.addClass('aside-active');
-
-          if ($aside.hasClass('left')) {
-            $body.addClass('left');
-            $body.addClass('active');
-          }
-
-          if ($aside.hasClass('right')) {
-            $body.addClass('right');
-            $body.addClass('active');
-          }
         };
 
         $body.on('click', function(e) {
