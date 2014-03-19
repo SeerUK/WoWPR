@@ -9,10 +9,11 @@ angular.module('wowpr.controllers', [])
       characterPromise.then(function(character) {
         $scope.character = character;
 
-        this.doSomething = function() {
+        $scope.doSomething = function() {
           console.log('Doing something');
         };
       });
+
     }
   ])
   .controller('MyCtrl2', [function() {
