@@ -8,26 +8,30 @@ angular.module('wowpr.controllers', [])
       // Set up default config values here, other pages can redirect back to here
       // if they don't have sufficient data
       if ( ! ConfigManager.get('region')) {
-        console.log('Setting region config.');
         ConfigManager.set('region', 'eu');
       }
 
-      var region = ConfigManager.get('region');
+      $scope.regions = [{'name': 'Europe', 'value': 'eu'}, {'name': 'United States', 'value': 'us'}];
+      $scope.region  = ConfigManager.get('region');
+      $scope.$watch('region', function() {
+        ConfigManager.set('region', $scope.region);
 
-      ApiClient.findRealms(region).then(function(realms) {
-        $scope.realms = realms.realms;
+        ApiClient.findRealms($scope.region).then(function(realms) {
+          $scope.realms = realms.realms;
 
-        $scope.doSearch = function() {
-          var characterPromise = ApiClient.findCharacter(
-            region,
-            $scope.formData.realm,
-            $scope.formData.name
-          );
+          $scope.doSearch = function() {
+            console.log($scope.region);
+            var characterPromise = ApiClient.findCharacter(
+              $scope.region,
+              $scope.formData.realm,
+              $scope.formData.name
+            );
 
-          characterPromise.then(function(response) {
-            $scope.response = response;
-          });
-        };
+            characterPromise.then(function(response) {
+              $scope.response = response;
+            });
+          };
+        });
       });
     }
   ])

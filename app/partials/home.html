@@ -14,11 +14,11 @@
 
     <div class="canvas canvas-padded">
         <form method="post" action="">
-            <select name="region" class="form-el">
-                <option value="eu">Europe</option>
-                <option value="us">United States</option>
-            </select>
-            <input name="submit" class="btn btn-block btn-turquoise" type="submit" value="Set Region" />
+            <select name="region" class="form-el"
+                ng-model="region"
+                ng-init="region = region || options[0].value"
+                ng-options="region.value as region.name for region in regions"
+            ></select>
         </form>
     </div>
 </aside>

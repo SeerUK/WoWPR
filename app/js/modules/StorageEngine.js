@@ -1,4 +1,4 @@
-var StorageEngine = function() {
+var StorageEngine = function($cookieStore) {
   /**
    * Check if local storage is supported
    *
@@ -20,7 +20,7 @@ var StorageEngine = function() {
     get: function(key) {
       return isLocalStorageAllowed
         ? JSON.parse(localStorage.getItem(key))
-        : false; // Cookie NYI
+        : $cookieStore.get(key);
     },
 
     /**
@@ -33,7 +33,7 @@ var StorageEngine = function() {
     set: function(key, value) {
       isLocalStorageAllowed
         ? localStorage.setItem(key, JSON.stringify(value))
-        : false; // Cookie NYI
+        : $cookieStore.put(key, value);
 
         return this;
     },
@@ -47,7 +47,7 @@ var StorageEngine = function() {
     unset: function(key) {
       isLocalStorageAllowed
         ? localStorage.removeItem(key)
-        : false; // Cookie NYI
+        : $cookieStore.remove(key);
 
       return this;
     }

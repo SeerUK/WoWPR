@@ -84,7 +84,7 @@ var ConfigManager = function(StorageEngine) {
   }
 };
 
-var StorageEngine = function() {
+var StorageEngine = function($cookieStore) {
   /**
    * Check if local storage is supported
    *
@@ -106,7 +106,7 @@ var StorageEngine = function() {
     get: function(key) {
       return isLocalStorageAllowed
         ? JSON.parse(localStorage.getItem(key))
-        : false; // Cookie NYI
+        : $cookieStore.get(key);
     },
 
     /**
@@ -119,7 +119,7 @@ var StorageEngine = function() {
     set: function(key, value) {
       isLocalStorageAllowed
         ? localStorage.setItem(key, JSON.stringify(value))
-        : false; // Cookie NYI
+        : $cookieStore.put(key, value);
 
         return this;
     },
@@ -133,7 +133,7 @@ var StorageEngine = function() {
     unset: function(key) {
       isLocalStorageAllowed
         ? localStorage.removeItem(key)
-        : false; // Cookie NYI
+        : $cookieStore.remove(key);
 
       return this;
     }
@@ -146,6 +146,7 @@ var StorageEngine = function() {
 // Declare app level module which depends on filters, and services
 angular.module('wowpr', [
   'ngAnimate',
+  'ngCookies',
   'ngRoute',
   'wowpr.filters',
   'wowpr.services',
@@ -168,26 +169,30 @@ angular.module('wowpr.controllers', [])
       // Set up default config values here, other pages can redirect back to here
       // if they don't have sufficient data
       if ( ! ConfigManager.get('region')) {
-        console.log('Setting region config.');
         ConfigManager.set('region', 'eu');
       }
 
-      var region = ConfigManager.get('region');
+      $scope.regions = [{'name': 'Europe', 'value': 'eu'}, {'name': 'United States', 'value': 'us'}];
+      $scope.region  = ConfigManager.get('region');
+      $scope.$watch('region', function() {
+        ConfigManager.set('region', $scope.region);
 
-      ApiClient.findRealms(region).then(function(realms) {
-        $scope.realms = realms.realms;
+        ApiClient.findRealms($scope.region).then(function(realms) {
+          $scope.realms = realms.realms;
 
-        $scope.doSearch = function() {
-          var characterPromise = ApiClient.findCharacter(
-            region,
-            $scope.formData.realm,
-            $scope.formData.name
-          );
+          $scope.doSearch = function() {
+            console.log($scope.region);
+            var characterPromise = ApiClient.findCharacter(
+              $scope.region,
+              $scope.formData.realm,
+              $scope.formData.name
+            );
 
-          characterPromise.then(function(response) {
-            $scope.response = response;
-          });
-        };
+            characterPromise.then(function(response) {
+              $scope.response = response;
+            });
+          };
+        });
       });
     }
   ])
@@ -262,6 +267,6 @@ angular.module('wowpr.services', [])
     }
   }])
   .service('ApiClient', ['$http', '$q', ApiClient])
-  .service('StorageEngine', [StorageEngine])
   .service('ConfigManager', ['StorageEngine', ConfigManager])
+  .service('StorageEngine', ['$cookieStore', StorageEngine])
 ;
