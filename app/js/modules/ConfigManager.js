@@ -1,8 +1,8 @@
-var ConfigManager = function() {
+var ConfigManager = function(StorageEngine) {
   /**
    * @type Object
    */
-  var keys = {};
+  var keys = StorageEngine.get('wowpr.config') || {};
 
   return {
     /**
@@ -24,6 +24,8 @@ var ConfigManager = function() {
      */
     set: function(key, value) {
       keys[key] = value;
+
+      StorageEngine.set('wowpr.config', keys);
 
       return this;
     }

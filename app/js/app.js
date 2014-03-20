@@ -50,11 +50,11 @@ var ApiClient = function($http, $q) {
   }
 };
 
-var ConfigManager = function() {
+var ConfigManager = function(StorageEngine) {
   /**
    * @type Object
    */
-  var keys = {};
+  var keys = StorageEngine.get('wowpr.config') || {};
 
   return {
     /**
@@ -76,6 +76,64 @@ var ConfigManager = function() {
      */
     set: function(key, value) {
       keys[key] = value;
+
+      StorageEngine.set('wowpr.config', keys);
+
+      return this;
+    }
+  }
+};
+
+var StorageEngine = function() {
+  /**
+   * Check if local storage is supported
+   *
+   * @return Boolean
+   */
+  var isLocalStorageAllowed = function() {
+    return typeof(Storage) === "undefined"
+      ? false
+      : true;
+  };
+
+  return {
+    /**
+     * Get a storage value by its key
+     *
+     * @param  string key
+     * @return string
+     */
+    get: function(key) {
+      return isLocalStorageAllowed
+        ? JSON.parse(localStorage.getItem(key))
+        : false; // Cookie NYI
+    },
+
+    /**
+     * Set a storage value by its key
+     *
+     * @param  string key
+     * @param  string value
+     * @return ConfigManager
+     */
+    set: function(key, value) {
+      isLocalStorageAllowed
+        ? localStorage.setItem(key, JSON.stringify(value))
+        : false; // Cookie NYI
+
+        return this;
+    },
+
+    /**
+     * Unset a storage value by its key
+     *
+     * @param  string key
+     * @return ConfigManager
+     */
+    unset: function(key) {
+      isLocalStorageAllowed
+        ? localStorage.removeItem(key)
+        : false; // Cookie NYI
 
       return this;
     }
@@ -107,16 +165,21 @@ config(['$routeProvider', function($routeProvider) {
 angular.module('wowpr.controllers', [])
   .controller('HomeCtrl', ['$scope', '$q', 'ApiClient', 'ConfigManager',
     function($scope, $q, ApiClient, ConfigManager) {
+      // Set up default config values here, other pages can redirect back to here
+      // if they don't have sufficient data
+      if ( ! ConfigManager.get('region')) {
+        console.log('Setting region config.');
+        ConfigManager.set('region', 'eu');
+      }
+
       var region = ConfigManager.get('region');
 
-      console.log(region);
-
-      ApiClient.findRealms('eu').then(function(realms) {
+      ApiClient.findRealms(region).then(function(realms) {
         $scope.realms = realms.realms;
 
         $scope.doSearch = function() {
           var characterPromise = ApiClient.findCharacter(
-            'eu',
+            region,
             $scope.formData.realm,
             $scope.formData.name
           );
@@ -199,5 +262,6 @@ angular.module('wowpr.services', [])
     }
   }])
   .service('ApiClient', ['$http', '$q', ApiClient])
-  .service('ConfigManager', [ConfigManager])
+  .service('StorageEngine', [StorageEngine])
+  .service('ConfigManager', ['StorageEngine', ConfigManager])
 ;

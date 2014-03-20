@@ -10,5 +10,6 @@ angular.module('wowpr.services', [])
     }
   }])
   .service('ApiClient', ['$http', '$q', ApiClient])
-  .service('ConfigManager', [ConfigManager])
+  .service('StorageEngine', [StorageEngine])
+  .service('ConfigManager', ['StorageEngine', ConfigManager])
 ;
