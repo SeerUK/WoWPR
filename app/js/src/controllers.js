@@ -44,6 +44,7 @@ angular.module('wowpr.controllers', [])
 
           var nameTimeout;
           var character;
+          // TODO: Watch region and realm too...
           $scope.$watch('formData.name', function() {
             action.hideSpinner();
             clearTimeout(nameTimeout);
