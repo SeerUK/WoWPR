@@ -1,0 +1,31 @@
+<header>
+    <nav class="primary pull-left">
+        <ul>
+            <li><a href="#/"><i class="flaticon stroke arrow-left-2"></i></a></li>
+        </ul>
+    </nav>
+    <nav class="primary pull-right" ng-if="character">
+        <ul>
+            <li><a href="#/"><i class="flaticon stroke share-1"></i></a></li>
+        </ul>
+    </nav>
+    <div id="logo" class="canvas slate">
+        <section class="title">Player Rater</section>
+    </div>
+    <div id="spinner" class="canvas slate">
+        <div class="bounce1"></div>
+        <div class="bounce2"></div>
+        <div class="bounce3"></div>
+    </div>
+</header>
+
+<div class="error canvas canvas-padded white text-center text-danger" ng-if="error">
+    <i class="flaticon stroke exclamation-point-1"></i><br />
+    {{ error }}<br /><br />
+    <a href="#/" class="btn btn-block btn-danger">Go Home</a>
+</div>
+
+<div class="canvas canvas-padded grey-lighter">
+    {{ character.name }}
+    {{ character.level }}
+</div>

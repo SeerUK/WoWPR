@@ -14,7 +14,7 @@
     </div>
 </header>
 
-<aside id="settings" class="canvas slate left settings" ng-click="doSomething()">
+<aside id="settings" class="canvas slate left settings">
     <header class="canvas slate-dark title">Settings</header>
 
     <div class="canvas canvas-padded">
@@ -27,6 +27,12 @@
         </form>
     </div>
 </aside>
+
+<div class="canvas canvas-padded white">
+    <div class="char-preview">
+        <div class="image" style="background-image: url(http://{{ region }}.battle.net/static-render/{{ region }}/{{ character.profileMain }})"></div>
+    </div>
+</div>
 
 <div class="canvas canvas-padded grey-lighter">
     <select class="form-el"
@@ -41,6 +47,5 @@
 
     <input type="submit" class="btn btn-block btn-success" name="wowpr-ipt-submit" value="Search" ng-click="doSearch()" />
 
-    {{ formData.realm }}
-    {{ formData.name }}
+    <div class="text-center text-danger" ng-if="error">{{ error }}</div>
 </div>

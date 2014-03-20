@@ -4,14 +4,35 @@
 
 // HTML 5 Elements
 
-[aside-menu-button] {
-    background: $slate-dark;
-    color: white;
-    display: inline-block;
-    height: 50px;
-    line-height: 50px;
-    padding: 0 16px;
-    text-decoration: none;
+nav.primary {
+    position: absolute;
+
+    &.pull-left {
+        left: 0;
+
+        li {
+            float: left;
+        }
+    }
+
+    &.pull-right {
+        right: 0;
+
+        li {
+            float: right;
+        }
+    }
+
+
+    a {
+        background: $slate-dark;
+        color: white;
+        display: inline-block;
+        height: 50px;
+        line-height: 50px;
+        padding: 0 16px;
+        text-decoration: none;
+    }
 }
 
 aside {
@@ -79,6 +100,10 @@ aside {
 
     &.grey-light {
         background: $grey-light;
+    }
+
+    &.white {
+        background: $white;
     }
 
     &.grey {

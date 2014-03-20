@@ -1,0 +1,18 @@
+/**
+ * Character
+ */
+
+// Preview Image
+
+.char-preview {
+    height: 200px;
+
+    .image {
+        height: 200px;
+        width: 200px;
+        margin: 0 auto;
+        background-size: 230%;
+        background-position: center -50px;
+        border-radius: 200px;
+    }
+}

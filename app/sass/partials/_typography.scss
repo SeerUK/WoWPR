@@ -1,0 +1,114 @@
+/**
+ * Typography
+ */
+
+// Emphasis & misc
+
+small,
+.small {
+    font-size: 85%;
+}
+
+cite {
+    font-style: normal;
+}
+
+strong,
+b {
+    font-weight: $font-weight-bold;
+}
+
+i,
+em {
+    font-style: italic;
+}
+
+.no-margin {
+    margin: 0;
+}
+
+.no-padding {
+    padding: 0;
+}
+
+.text-ellipsis {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+
+// Contextual emphasis
+
+.text-faded {
+    @include opacity(0.9);
+}
+
+.text-uppercase {
+    text-transform: uppercase;
+}
+
+.text-muted,
+.text-primary,
+.text-warning,
+.text-danger,
+.text-success,
+.text-info {
+    cursor: default;
+}
+
+.text-muted {
+  color: $text-muted;
+}
+
+.text-warning {
+    color: $text-warning;
+
+    &:hover {
+        color: darken($text-warning, 10%);
+    }
+}
+
+.text-danger {
+    color: $text-danger;
+
+    &:hover {
+        color: darken($text-danger, 10%);
+    }
+}
+
+.text-success {
+  color: $text-success;
+
+  &:hover {
+    color: darken($text-success, 10%);
+  }
+}
+
+.text-info {
+  color: $text-info;
+
+  &:hover {
+    color: darken($text-info, 10%);
+  }
+}
+
+.text-turquoise {
+    color: $text-turquoise;
+
+    &:hover {
+        color: darken($text-turquoise, 10%);
+    }
+}
+
+
+// Alignment
+.text-left { text-align: left; }
+.text-right { text-align: right; }
+.text-center { text-align: center; }
+.text-justify { text-align: justify; }
+
+
+// Weight
+.text-light { font-weight: $font-weight-light }
+.text-thin { font-weight: $font-weight-thin }
