@@ -9,10 +9,20 @@ var ApiClient = function($http, $q) {
 
     $http.get('proxy.php?region=' + region + '&uri=' + uri)
       .success(function(data, status, headers, config) {
-        deferred.resolve(data);
+        deferred.resolve({
+          data: data,
+          status: status,
+          headers: headers,
+          config: config
+        });
       })
       .error(function(data, status, headers, config) {
-        deferred.reject(status);
+        deferred.reject({
+          data: data,
+          status: status,
+          headers: headers,
+          config: config
+        });
       });
 
     return deferred.promise;

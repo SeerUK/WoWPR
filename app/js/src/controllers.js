@@ -37,7 +37,7 @@ angular.module('wowpr.controllers', [])
 
           action.hideSpinner();
 
-          $scope.realms = realms.realms;
+          $scope.realms = realms.data.realms;
 
           $scope.doSearch = function() {
             action.showSpinner();
@@ -49,15 +49,15 @@ angular.module('wowpr.controllers', [])
               $scope.formData.name
             ).then(function(response) {
               action.hideSpinner();
-              $scope.response = response;
-            }, function(reason) {
+              $scope.response = response.data;
+            }, function(response) {
               action.hideSpinner();
+
               console.error('Errors have occurred');
-              console.error(reason);
+              console.error(response.data.reason);
+
               // TODO: Handle erroneous responses, i.e. if a character doesn't exist
               // action.addErrors();
-            }, function(reason) {
-              console.log('Something?');
             });
           };
         });

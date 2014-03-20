@@ -9,10 +9,20 @@ var ApiClient = function($http, $q) {
 
     $http.get('proxy.php?region=' + region + '&uri=' + uri)
       .success(function(data, status, headers, config) {
-        deferred.resolve(data);
+        deferred.resolve({
+          data: data,
+          status: status,
+          headers: headers,
+          config: config
+        });
       })
       .error(function(data, status, headers, config) {
-        deferred.reject(status);
+        deferred.reject({
+          data: data,
+          status: status,
+          headers: headers,
+          config: config
+        });
       });
 
     return deferred.promise;
@@ -198,7 +208,7 @@ angular.module('wowpr.controllers', [])
 
           action.hideSpinner();
 
-          $scope.realms = realms.realms;
+          $scope.realms = realms.data.realms;
 
           $scope.doSearch = function() {
             action.showSpinner();
@@ -210,15 +220,15 @@ angular.module('wowpr.controllers', [])
               $scope.formData.name
             ).then(function(response) {
               action.hideSpinner();
-              $scope.response = response;
-            }, function(reason) {
+              $scope.response = response.data;
+            }, function(response) {
               action.hideSpinner();
+
               console.error('Errors have occurred');
-              console.error(reason);
+              console.error(response.data.reason);
+
               // TODO: Handle erroneous responses, i.e. if a character doesn't exist
               // action.addErrors();
-            }, function(reason) {
-              console.log('Something?');
             });
           };
         });
