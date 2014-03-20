@@ -12,7 +12,7 @@ var ApiClient = function($http, $q) {
         deferred.resolve(data);
       })
       .error(function(data, status, headers, config) {
-        return false;
+        deferred.reject(status);
       });
 
     return deferred.promise;
@@ -168,24 +168,60 @@ angular.module('wowpr.controllers', [])
     function($scope, $q, ApiClient, ConfigManager) {
       // Set up default config values here, other pages can redirect back to here
       // if they don't have sufficient data
-      var action = {};
-
       if ( ! ConfigManager.get('region')) {
         ConfigManager.set('region', 'eu');
       }
 
-      // Set up spinner
-      _logo    = angular.element(document.getElementById('logo'));
-      _spinner = angular.element(document.getElementById('spinner'));
+      var action = {};
+      var els    = {};
+
+      els.logo    = angular.element(document.getElementById('logo'));
+      els.spinner = angular.element(document.getElementById('spinner'));
 
       action.showSpinner = function() {
-        _logo.addClass('hide');
-        _spinner.addClass('active');
+        els.logo.addClass('hide');
+        els.spinner.addClass('active');
       };
 
       action.hideSpinner = function() {
-          _logo.removeClass('hide');
-          _spinner.removeClass('active');
+        els.logo.removeClass('hide');
+        els.spinner.removeClass('active');
+      };
+
+      action.regionChange = function() {
+        // Save region for future visits
+        ConfigManager.set('region', $scope.region);
+
+        action.showSpinner();
+        // Fetch realms for given region
+        ApiClient.findRealms($scope.region).then(function(realms) {
+
+          action.hideSpinner();
+
+          $scope.realms = realms.realms;
+
+          $scope.doSearch = function() {
+            action.showSpinner();
+            // action.clearErrors();
+
+            ApiClient.findCharacter(
+              $scope.region,
+              $scope.formData.realm,
+              $scope.formData.name
+            ).then(function(response) {
+              action.hideSpinner();
+              $scope.response = response;
+            }, function(reason) {
+              action.hideSpinner();
+              console.error('Errors have occurred');
+              console.error(reason);
+              // TODO: Handle erroneous responses, i.e. if a character doesn't exist
+              // action.addErrors();
+            }, function(reason) {
+              console.log('Something?');
+            });
+          };
+        });
       };
 
       $scope.regions = [
@@ -195,33 +231,7 @@ angular.module('wowpr.controllers', [])
         { 'name': 'Taiwan', 'value': 'tw' }
       ];
       $scope.region  = ConfigManager.get('region');
-      $scope.$watch('region', function() {
-        ConfigManager.set('region', $scope.region);
-
-        action.showSpinner();
-
-        ApiClient.findRealms($scope.region).then(function(realms) {
-
-          action.hideSpinner();
-          $scope.realms = realms.realms;
-
-          $scope.doSearch = function() {
-            var characterPromise = ApiClient.findCharacter(
-              $scope.region,
-              $scope.formData.realm,
-              $scope.formData.name
-            );
-
-            // TODO: Refactor this code, it's a little messier than it has to be
-            // TODO: Begin character pull spinner
-            characterPromise.then(function(response) {
-              // TODO: End character pull spinner
-              // TODO: Handle erroneous responses, i.e. if a character doesn't exist
-              $scope.response = response;
-            });
-          };
-        });
-      });
+      $scope.$watch('region', action.regionChange);
     }
   ])
   .controller('MyCtrl2', [function() {

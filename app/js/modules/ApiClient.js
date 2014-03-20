@@ -12,7 +12,7 @@ var ApiClient = function($http, $q) {
         deferred.resolve(data);
       })
       .error(function(data, status, headers, config) {
-        return false;
+        deferred.reject(status);
       });
 
     return deferred.promise;
