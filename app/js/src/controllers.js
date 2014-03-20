@@ -16,18 +16,23 @@ angular.module('wowpr.controllers', [])
       $scope.$watch('region', function() {
         ConfigManager.set('region', $scope.region);
 
+        // TODO: Begin region spinner
         ApiClient.findRealms($scope.region).then(function(realms) {
+          // TODO: End region spinner
           $scope.realms = realms.realms;
 
           $scope.doSearch = function() {
-            console.log($scope.region);
             var characterPromise = ApiClient.findCharacter(
               $scope.region,
               $scope.formData.realm,
               $scope.formData.name
             );
 
+            // TODO: Refactor this code, it's a little messier than it has to be
+            // TODO: Begin character pull spinner
             characterPromise.then(function(response) {
+              // TODO: End character pull spinner
+              // TODO: Handle erroneous responses, i.e. if a character doesn't exist
               $scope.response = response;
             });
           };
