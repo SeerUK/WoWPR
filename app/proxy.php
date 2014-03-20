@@ -37,10 +37,23 @@ if (isset($_GET['region']) && isset($_GET['uri'])) {
     exit;
 }
 
+$cc      = curl_init();
+$timeout = 10;
+$url     = 'http://' . $region . '.battle.net' . $requestUri;
+
+curl_setopt($cc, CURLOPT_CONNECTTIMEOUT, $timeout);
+curl_setopt($cc, CURLOPT_RETURNTRANSFER, 1);
+curl_setopt($cc, CURLOPT_URL, $url);
+
+$data = curl_exec($cc);
+
 // Output result
 header('Content-Type: application/json');
-if ($response = @file_get_contents('http://' . $region . '.battle.net' . $requestUri)) {
-    echo $response;
+if ( ! curl_errno($cc)) {
+    http_response_code(curl_getinfo($cc, CURLINFO_HTTP_CODE));
+    echo $data;
 } else {
-    outputError("Bad request.");
+    outputError('Battle.net API has gone away.');
 }
+
+curl_close($cc);
