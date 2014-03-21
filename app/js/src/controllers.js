@@ -43,9 +43,13 @@ angular.module('wowpr.controllers', [])
               // Successfully found character
               function(response) {
                 SpinnerHelper.hideSpinner();
-                $scope.response = response.data;
 
-                $location.path('/character/' + $scope.formData.realm + '/' + $scope.formData.name);
+                if ( ! JSON.stringify(response.data) == '{}') {
+                  $scope.response = response.data;
+                  $location.path('/character/' + $scope.formData.realm + '/' + $scope.formData.name);
+                } else {
+                  $scope.error = "The armory has not updated this character.";
+                }
               },
 
               // Error finding character
@@ -73,7 +77,10 @@ angular.module('wowpr.controllers', [])
         ).then(function(response) {
           SpinnerHelper.hideSpinner();
 
-          response.data.profileMain = response.data.thumbnail.replace("avatar.jpg", "profilemain.jpg");
+          if (response.data.thumbnail) {
+            response.data.profileMain = response.data.thumbnail.replace("avatar.jpg", "profilemain.jpg");
+          }
+
           response.data.factionName = CharacterDataHelper.getFactionNameByRaceId(response.data.race);
           $scope.character = response.data;
         }, function() {
