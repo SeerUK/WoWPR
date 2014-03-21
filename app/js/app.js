@@ -94,6 +94,34 @@ var ConfigManager = function(StorageEngine) {
   }
 };
 
+var SpinnerHelper = function() {
+  /**
+   * @type Object
+   */
+  var els    = {};
+
+  els.logo    = angular.element(document.getElementById('logo'));
+  els.spinner = angular.element(document.getElementById('spinner'));
+
+  return {
+    /**
+     * Hides the Spinner
+     */
+    hideSpinner: function() {
+      els.logo.removeClass('hide');
+      els.spinner.removeClass('active');
+    },
+
+    /**
+     * Shows the spinner
+     */
+    showSpinner: function() {
+      els.logo.addClass('hide');
+      els.spinner.addClass('active');
+    }
+  }
+};
+
 var StorageEngine = function($cookieStore) {
   /**
    * Check if local storage is supported
@@ -178,8 +206,8 @@ angular.module('wowpr.controllers', [])
    * Home screen controller
    * @route /
    */
-  .controller('HomeCtrl', ['$scope', '$q', '$http', '$location', '$templateCache', 'ApiClient', 'ConfigManager',
-    function($scope, $q, $http, $location, $templateCache, ApiClient, ConfigManager) {
+  .controller('HomeCtrl', ['$scope', '$q', '$http', '$location', '$templateCache', 'ApiClient', 'ConfigManager', 'SpinnerHelper',
+    function($scope, $q, $http, $location, $templateCache, ApiClient, ConfigManager, SpinnerHelper) {
       // Set up default config values here, other pages can redirect back to here
       // if they don't have sufficient data
       if ( ! ConfigManager.get('region')) {
@@ -187,61 +215,25 @@ angular.module('wowpr.controllers', [])
       }
 
       var action = {};
-      var els    = {};
-
-      els.logo    = angular.element(document.getElementById('logo'));
-      els.spinner = angular.element(document.getElementById('spinner'));
-
-      action.hideSpinner = function() {
-        els.logo.removeClass('hide');
-        els.spinner.removeClass('active');
-      };
-
-      action.showSpinner = function() {
-        els.logo.addClass('hide');
-        els.spinner.addClass('active');
-      };
 
       action.regionChange = function() {
         // Save region for future visits
         ConfigManager.set('region', $scope.region);
 
         // Fetch realms for given region
-        action.showSpinner();
+        SpinnerHelper.showSpinner();
         ApiClient.findRealms($scope.region).then(function(realms) {
-          action.hideSpinner();
+          SpinnerHelper.hideSpinner();
 
           $scope.realms = realms.data.realms;
 
-          var nameTimeout;
-          var character;
-          // TODO: Watch region and realm too...
-          $scope.$watch('formData.name', function() {
-            action.hideSpinner();
-            clearTimeout(nameTimeout);
-            nameTimeout = setTimeout(function() {
-              action.showSpinner();
-              ApiClient.findCharacter(
-                $scope.region,
-                $scope.formData.realm,
-                $scope.formData.name
-              ).then(function(response) {
-                action.hideSpinner();
-
-                response.data.profileMain = response.data.thumbnail.replace("avatar.jpg", "profilemain.jpg");
-                $scope.character = response.data;
-              }, function() {
-                action.hideSpinner();
-              });
-            }, 1500);
-          });
 
           $scope.doSearch = function() {
 
             // Clear any existing errors
             $scope.error = null;
 
-            action.showSpinner();
+            SpinnerHelper.showSpinner();
             ApiClient.findCharacter(
               $scope.region,
               $scope.formData.realm,
@@ -249,7 +241,7 @@ angular.module('wowpr.controllers', [])
             ).then(
               // Successfully found character
               function(response) {
-                action.hideSpinner();
+                SpinnerHelper.hideSpinner();
                 $scope.response = response.data;
 
                 $location.path('/character/' + $scope.formData.realm + '/' + $scope.formData.name);
@@ -257,7 +249,7 @@ angular.module('wowpr.controllers', [])
 
               // Error finding character
               function(response) {
-                action.hideSpinner();
+                SpinnerHelper.hideSpinner();
 
                 $scope.error = response.data.reason;
               }
@@ -265,6 +257,41 @@ angular.module('wowpr.controllers', [])
           };
         });
       };
+
+      action.updateCharacterPreview = function() {
+        if ( ! $scope.region || ! $scope.formData.realm || ! $scope.formData.name) {
+          return false;
+        }
+
+        SpinnerHelper.showSpinner();
+
+        ApiClient.findCharacter(
+          $scope.region,
+          $scope.formData.realm,
+          $scope.formData.name
+        ).then(function(response) {
+          SpinnerHelper.hideSpinner();
+
+          response.data.profileMain = response.data.thumbnail.replace("avatar.jpg", "profilemain.jpg");
+          $scope.character = response.data;
+        }, function() {
+          SpinnerHelper.hideSpinner();
+          delete $scope.character;
+        });
+      };
+
+      var nameTimeout;
+      var character;
+      // TODO: Watch region and realm too...
+      $scope.$watch('region', action.updateCharacterPreview);
+      $scope.$watch('formData.realm', action.updateCharacterPreview);
+      $scope.$watch('formData.name', function() {
+        SpinnerHelper.hideSpinner();
+        clearTimeout(nameTimeout);
+        nameTimeout = setTimeout(function() {
+          action.updateCharacterPreview();
+        }, 1500);
+      });
 
       $scope.regions = [
         { 'name': 'Europe', 'value': 'eu' },
@@ -284,43 +311,26 @@ angular.module('wowpr.controllers', [])
    * Character screen controller
    * @route /character/:realm/:name
    */
-  .controller('CharacterCtrl', ['$scope', '$http', '$location', '$routeParams', '$templateCache', 'ApiClient', 'ConfigManager',
-    function($scope, $http, $location, $routeParams, $templateCache, ApiClient, ConfigManager) {
+  .controller('CharacterCtrl', ['$scope', '$http', '$location', '$routeParams', '$templateCache', 'ApiClient', 'ConfigManager', 'SpinnerHelper',
+    function($scope, $http, $location, $routeParams, $templateCache, ApiClient, ConfigManager, SpinnerHelper) {
       // If config is not set up, send to homepage to get it set up properly
       if ( ! ConfigManager.get('region')) {
         $location.path('/');
       }
 
-      // TODO: Start - Refactor this
       var action = {};
-      var els    = {};
-
-
-      els.logo    = angular.element(document.getElementById('logo'));
-      els.spinner = angular.element(document.getElementById('spinner'));
-
-      action.hideSpinner = function() {
-        els.logo.removeClass('hide');
-        els.spinner.removeClass('active');
-      };
-
-      action.showSpinner = function() {
-        els.logo.addClass('hide');
-        els.spinner.addClass('active');
-      };
-      // TODO: End - Refactor this
 
       action.region = ConfigManager.get('region');
-      action.showSpinner();
+      SpinnerHelper.showSpinner();
 
       ApiClient.findCharacter(action.region, $routeParams.realm, $routeParams.name).then(
         function (response) {
-          action.hideSpinner();
+          SpinnerHelper.hideSpinner();
           console.log(response.data);
           $scope.character = response.data;
         },
         function (response) {
-          action.hideSpinner();
+          SpinnerHelper.hideSpinner();
           $scope.error = response.data.reason;
         }
       );
@@ -398,5 +408,6 @@ angular.module('wowpr.services', [])
   }])
   .service('ApiClient', ['$http', '$q', ApiClient])
   .service('ConfigManager', ['StorageEngine', ConfigManager])
+  .service('SpinnerHelper', [SpinnerHelper])
   .service('StorageEngine', ['$cookieStore', StorageEngine])
 ;
