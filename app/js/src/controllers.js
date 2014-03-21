@@ -7,8 +7,8 @@ angular.module('wowpr.controllers', [])
    * Home screen controller
    * @route /
    */
-  .controller('HomeCtrl', ['$scope', '$q', '$http', '$location', '$templateCache', 'ApiClient', 'ConfigManager', 'SpinnerHelper',
-    function($scope, $q, $http, $location, $templateCache, ApiClient, ConfigManager, SpinnerHelper) {
+  .controller('HomeCtrl', ['$scope', '$q', '$http', '$location', '$templateCache', 'ApiClient', 'CharacterDataHelper', 'ConfigManager', 'SpinnerHelper',
+    function($scope, $q, $http, $location, $templateCache, ApiClient, CharacterDataHelper, ConfigManager, SpinnerHelper) {
       // Set up default config values here, other pages can redirect back to here
       // if they don't have sufficient data
       if ( ! ConfigManager.get('region')) {
@@ -82,7 +82,6 @@ angular.module('wowpr.controllers', [])
       };
 
       var nameTimeout;
-      var character;
       // TODO: Watch region and realm too...
       $scope.$watch('region', action.updateCharacterPreview);
       $scope.$watch('formData.realm', action.updateCharacterPreview);

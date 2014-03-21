@@ -60,6 +60,73 @@ var ApiClient = function($http, $q) {
   }
 };
 
+var CharacterDataHelper = function() {
+  return {
+    /**
+     * Get faction name by race id
+     *
+     * @param  integer id
+     * @return string
+     */
+    getFactionNameByRaceId: function(id) {
+      switch (id) {
+        case 1:  // Human
+        case 3:  // Dwarf
+        case 4:  // Night Elf
+        case 7:  // Gnome
+        case 11: // Draenei
+        case 22: // Worgen
+        case 25: // Alliance Pandaren
+          return 'alliance';
+        case 2:  // Orc
+        case 5:  // Undead
+        case 6:  // Tauren
+        case 8:  // Troll
+        case 9:  // Goblin
+        case 10: // Blood Elf
+        case 26: // Horde Pandaren
+          return 'horde';
+        default:
+          return false;
+      }
+    },
+
+    getRaceById: function() {
+      switch (id) {
+        case 1:
+          return 'human';
+        case 2:
+          return 'orc';
+        case 3:
+          return 'dwarf';
+        case 4:
+         return 'night elf';
+        case 5:
+          return 'undead';
+        case 6:
+          return 'tauren';
+        case 7:
+          return 'gnome';
+        case 8:
+          return 'troll';
+        case 9:
+          return 'goblin';
+        case 10:
+          return 'blood elf';
+        case 11:
+          return 'draenei';
+        case 22:
+          return 'worgen';
+        case 25:
+        case 26:
+          return 'pandaren';
+        default:
+          return false;
+      }
+    }
+  }
+};
+
 var ConfigManager = function(StorageEngine) {
   /**
    * @type Object
@@ -206,8 +273,8 @@ angular.module('wowpr.controllers', [])
    * Home screen controller
    * @route /
    */
-  .controller('HomeCtrl', ['$scope', '$q', '$http', '$location', '$templateCache', 'ApiClient', 'ConfigManager', 'SpinnerHelper',
-    function($scope, $q, $http, $location, $templateCache, ApiClient, ConfigManager, SpinnerHelper) {
+  .controller('HomeCtrl', ['$scope', '$q', '$http', '$location', '$templateCache', 'ApiClient', 'CharacterDataHelper', 'ConfigManager', 'SpinnerHelper',
+    function($scope, $q, $http, $location, $templateCache, ApiClient, CharacterDataHelper, ConfigManager, SpinnerHelper) {
       // Set up default config values here, other pages can redirect back to here
       // if they don't have sufficient data
       if ( ! ConfigManager.get('region')) {
@@ -281,7 +348,6 @@ angular.module('wowpr.controllers', [])
       };
 
       var nameTimeout;
-      var character;
       // TODO: Watch region and realm too...
       $scope.$watch('region', action.updateCharacterPreview);
       $scope.$watch('formData.realm', action.updateCharacterPreview);
@@ -401,12 +467,8 @@ angular.module('wowpr.filters', []).
 
 
 angular.module('wowpr.services', [])
-  .service('Test', [function() {
-    return {
-      test: 'test'
-    }
-  }])
   .service('ApiClient', ['$http', '$q', ApiClient])
+  .service('CharacterDataHelper', [CharacterDataHelper])
   .service('ConfigManager', ['StorageEngine', ConfigManager])
   .service('SpinnerHelper', [SpinnerHelper])
   .service('StorageEngine', ['$cookieStore', StorageEngine])
