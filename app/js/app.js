@@ -347,7 +347,6 @@ angular.module('wowpr.controllers', [])
 
           response.data.profileMain = response.data.thumbnail.replace("avatar.jpg", "profilemain.jpg");
           response.data.factionName = CharacterDataHelper.getFactionNameByRaceId(response.data.race);
-          console.log(response.data);
           $scope.character = response.data;
         }, function() {
           SpinnerHelper.hideSpinner();
@@ -356,7 +355,6 @@ angular.module('wowpr.controllers', [])
       };
 
       var nameTimeout;
-      // TODO: Watch region and realm too...
       $scope.$watch('region', action.updateCharacterPreview);
       $scope.$watch('formData.realm', action.updateCharacterPreview);
       $scope.$watch('formData.name', function() {
@@ -364,7 +362,7 @@ angular.module('wowpr.controllers', [])
         clearTimeout(nameTimeout);
         nameTimeout = setTimeout(function() {
           action.updateCharacterPreview();
-        }, 1500);
+        }, 400);
       });
 
       $scope.regions = [

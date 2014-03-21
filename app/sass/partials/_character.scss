@@ -57,6 +57,7 @@
     }
 
     .image {
+        background-color: white;
         border: solid 5px $white;
         height: 200px;
         width: 200px;
@@ -64,5 +65,11 @@
         background-size: 230%;
         background-position: center -50px;
         border-radius: 200px;
+
+        &.placeholder {
+            background-image: url(../img/char-image-placeholder.jpg);
+            background-size: 100%;
+            background-position: center;
+        }
     }
 }
