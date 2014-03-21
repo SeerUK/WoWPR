@@ -28,9 +28,7 @@ angular.module('wowpr.controllers', [])
 
           $scope.realms = realms.data.realms;
 
-
           $scope.doSearch = function() {
-
             // Clear any existing errors
             $scope.error = null;
 
@@ -44,7 +42,9 @@ angular.module('wowpr.controllers', [])
               function(response) {
                 SpinnerHelper.hideSpinner();
 
-                if ( ! JSON.stringify(response.data) == '{}') {
+                console.log(JSON.stringify(response.data));
+
+                if (JSON.stringify(response.data) !== '{}') {
                   $scope.response = response.data;
                   $location.path('/character/' + $scope.formData.realm + '/' + $scope.formData.name);
                 } else {
@@ -67,6 +67,9 @@ angular.module('wowpr.controllers', [])
         if ( ! $scope.region || ! $scope.formData.realm || ! $scope.formData.name) {
           return false;
         }
+
+        // Clear any existing errors
+        $scope.error = null;
 
         SpinnerHelper.showSpinner();
 
