@@ -151,7 +151,7 @@ angular.module('wowpr.controllers', [])
           // console.log(ScoreCalculator.getScore($scope.character));
 
           $scope.character = response.data;
-          $scope.score     = ScoreCalculator.getScore($scope.character);
+          $scope.scores    = ScoreCalculator.getScore($scope.character);
         },
         function (response) {
           SpinnerHelper.hideSpinner();

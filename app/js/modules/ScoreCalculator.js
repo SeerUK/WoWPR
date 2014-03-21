@@ -78,8 +78,6 @@ var ScoreCalculator = function() {
      * @return object
      */
     getScore: function(character) {
-      console.log(character);
-
       var total  = 0;
       var scores = {
         achievements: this.getAchievementScore(character),
@@ -93,6 +91,14 @@ var ScoreCalculator = function() {
       }
 
       // (x / total) * 100 = percentage of total
+
+      // Must be calculated after total
+      for (var key in scores) {
+        scores[key] = {
+          score: scores[key],
+          percentage: Math.round(((scores[key] / total) * 100)),
+        }
+      }
 
       scores.total = total;
 

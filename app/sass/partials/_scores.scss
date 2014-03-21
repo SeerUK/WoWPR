@@ -21,3 +21,38 @@
         font-weight: $font-weight-thin;
     }
 }
+
+.scores {
+    color: $white;
+
+    .gear {
+        .name {
+            color: $blue;
+        }
+    }
+
+    .raids {
+        .name {
+            color: $purple;
+        }
+    }
+
+    .professions {
+        .name {
+            color: $red;
+        }
+    }
+
+    .achievements {
+        .name {
+            color: $turquoise;
+        }
+    }
+
+    .percentage {
+        display: inline-block;
+        margin-left: 6px;
+        text-align: right;
+        width: 30px;
+    }
+}

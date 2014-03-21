@@ -41,7 +41,7 @@
 <div class="score-overview canvas canvas-padded-s grey-lighter">
     <table class="table-fixed">
         <tr>
-            <td class="text-center"><span class="score">{{ score.total | number }}</span><br /><span class="label">Score</span></td>
+            <td class="text-center"><span class="score">{{ scores.total | number }}</span><br /><span class="label">Score</span></td>
             <td class="text-center"><span class="score">{{ character.items.averageItemLevelEquipped | number }}</span><br /><span class="label">Item Level</span></td>
         </tr>
     </table>
@@ -52,8 +52,32 @@
 </div>
 
 <div class="scores">
-    <div class="canvas canvas-padded-s slate-dark">{{ score.gear }}</div>
-    <div class="canvas canvas-padded-s slate">{{ score.raids }}</div>
-    <div class="canvas canvas-padded-s slate-dark">{{ score.professions }}</div>
-    <div class="canvas canvas-padded-s slate">{{ score.achievements }}</div>
+    <div class="gear canvas canvas-padded-s slate-dark">
+        <span class="name"><strong>Gear</strong></span>
+        <div class="pull-right">
+            <strong>{{ scores.gear.score }}</strong>
+            <span class="percentage text-muted">{{ scores.gear.percentage }}%</span>
+        </div>
+    </div>
+    <div class="raids canvas canvas-padded-s slate">
+        <span class="name"><strong>Raids</strong></span>
+        <div class="pull-right">
+            <strong>{{ scores.raids.score }}</strong>
+            <span class="percentage text-muted">{{ scores.raids.percentage }}%</span>
+        </div>
+    </div>
+    <div class="professions canvas canvas-padded-s slate-dark">
+        <span class="name"><strong>Professions</strong></span>
+        <div class="pull-right">
+            <strong>{{ scores.professions.score }}</strong>
+            <span class="percentage text-muted">{{ scores.professions.percentage }}%</span>
+        </div>
+    </div>
+    <div class="achievements canvas canvas-padded-s slate">
+        <span class="name"><strong>Achievements</strong></span>
+        <div class="pull-right">
+            <strong>{{ scores.achievements.score }}</strong>
+            <span class="percentage text-muted">{{ scores.achievements.percentage }}%</span>
+        </div>
+    </div>
 </div>
