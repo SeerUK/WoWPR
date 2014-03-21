@@ -56,7 +56,7 @@ var ApiClient = function($http, $q) {
     findFullCharacter: function(region, realm, name) {
       return request(
         region,
-        '/api/wow/character/' + realm + '/' + name + '?fields=titles,items'
+        '/api/wow/character/' + realm + '/' + name + '?fields=titles,items,professions'
       );
     },
 

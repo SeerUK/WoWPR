@@ -119,8 +119,8 @@ angular.module('wowpr.controllers', [])
    * Character screen controller
    * @route /character/:realm/:name
    */
-  .controller('CharacterCtrl', ['$scope', '$http', '$location', '$routeParams', '$templateCache', 'ApiClient', 'CharacterDataHelper', 'ConfigManager', 'SpinnerHelper',
-    function($scope, $http, $location, $routeParams, $templateCache, ApiClient, CharacterDataHelper, ConfigManager, SpinnerHelper) {
+  .controller('CharacterCtrl', ['$scope', '$http', '$location', '$routeParams', '$templateCache', 'ApiClient', 'CharacterDataHelper', 'ConfigManager', 'ScoreCalculator', 'SpinnerHelper',
+    function($scope, $http, $location, $routeParams, $templateCache, ApiClient, CharacterDataHelper, ConfigManager, ScoreCalculator, SpinnerHelper) {
       // If config is not set up, send to homepage to get it set up properly
       if ( ! ConfigManager.get('region')) {
         $location.path('/');
@@ -147,9 +147,11 @@ angular.module('wowpr.controllers', [])
           response.data.realmSlug   = $routeParams.realm;
           response.data.title       = CharacterDataHelper.getActiveTitleFromTitles(response.data.titles);
 
-          console.log(response.data);
+          // console.log(response.data);
+          // console.log(ScoreCalculator.getScore($scope.character));
 
           $scope.character = response.data;
+          $scope.score     = ScoreCalculator.getScore($scope.character);
         },
         function (response) {
           SpinnerHelper.hideSpinner();

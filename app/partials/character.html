@@ -41,9 +41,12 @@
 <div class="score-overview canvas canvas-padded-s grey-lighter">
     <table class="table-fixed">
         <tr>
-            <td class="text-center"><span class="score">15,473</span><br /><span class="label">Score</span></td>
-            <td class="text-center"><span class="score">{{ character.items.averageItemLevelEquipped }}</span><br /><span class="label">Item Level</span></td>
+            <td class="text-center"><span class="score">{{ score.total | number }}</span><br /><span class="label">Score</span></td>
+            <td class="text-center"><span class="score">{{ character.items.averageItemLevelEquipped | number }}</span><br /><span class="label">Item Level</span></td>
         </tr>
     </table>
+</div>
 
+<div id="chart" class="canvas canvas-padded slate">
+    <p>Chart will go here</p>
 </div>

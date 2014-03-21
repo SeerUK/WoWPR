@@ -56,7 +56,7 @@ var ApiClient = function($http, $q) {
     findFullCharacter: function(region, realm, name) {
       return request(
         region,
-        '/api/wow/character/' + realm + '/' + name + '?fields=titles,items'
+        '/api/wow/character/' + realm + '/' + name + '?fields=titles,items,professions'
       );
     },
 
@@ -264,6 +264,86 @@ var ConfigManager = function(StorageEngine) {
       StorageEngine.set('wowpr.config', keys);
 
       return this;
+    }
+  }
+};
+
+var ScoreCalculator = function() {
+  return {
+    /**
+     * Get achievement score from character
+     * @return {[type]} [description]
+     */
+    getAchievementScore: function(character) {
+      return Math.round(character.achievementPoints * 0.5);
+    },
+
+    /**
+     * Get gear score from items
+     *
+     * @param  object items
+     * @return integer
+     */
+    getGearScore: function(items) {
+      var score = 0;
+
+      for (var key in items) {
+        if ( ! items.hasOwnProperty(key)) {
+          continue;
+        }
+
+        if (typeof items[key] === 'object' && key != 'tabard') {
+          score += Math.round((items[key].itemLevel * 0.5) * items[key].quality);
+        }
+      }
+
+      return score;
+    },
+
+    /**
+     * Get profession score from professions
+     *
+     * @param  object professions
+     * @return integer
+     */
+    getProfessionsScore: function(professions) {
+      var primary = professions.primary;
+      var score   = 0;
+
+      for (var key in primary) {
+        score += primary[key].rank;
+      }
+
+      return score;
+    },
+
+    /**
+     * Get all scores and total
+     *
+     * @param  object character
+     * @return object
+     */
+    getScore: function(character) {
+      console.log(character);
+
+      var total  = 0;
+      var scores = {
+        achievement: this.getAchievementScore(character),
+        gear:        this.getGearScore(character.items),
+        professions: this.getProfessionsScore(character.professions),
+      };
+
+      for (var key in scores) {
+        total += scores[key];
+      }
+
+      // (x / total) * 100 = percentage of total
+
+      scores.total = total;
+
+      console.log(scores);
+
+      return scores;
     }
   }
 };
@@ -492,8 +572,8 @@ angular.module('wowpr.controllers', [])
    * Character screen controller
    * @route /character/:realm/:name
    */
-  .controller('CharacterCtrl', ['$scope', '$http', '$location', '$routeParams', '$templateCache', 'ApiClient', 'CharacterDataHelper', 'ConfigManager', 'SpinnerHelper',
-    function($scope, $http, $location, $routeParams, $templateCache, ApiClient, CharacterDataHelper, ConfigManager, SpinnerHelper) {
+  .controller('CharacterCtrl', ['$scope', '$http', '$location', '$routeParams', '$templateCache', 'ApiClient', 'CharacterDataHelper', 'ConfigManager', 'ScoreCalculator', 'SpinnerHelper',
+    function($scope, $http, $location, $routeParams, $templateCache, ApiClient, CharacterDataHelper, ConfigManager, ScoreCalculator, SpinnerHelper) {
       // If config is not set up, send to homepage to get it set up properly
       if ( ! ConfigManager.get('region')) {
         $location.path('/');
@@ -520,9 +600,11 @@ angular.module('wowpr.controllers', [])
           response.data.realmSlug   = $routeParams.realm;
           response.data.title       = CharacterDataHelper.getActiveTitleFromTitles(response.data.titles);
 
-          console.log(response.data);
+          // console.log(response.data);
+          // console.log(ScoreCalculator.getScore($scope.character));
 
           $scope.character = response.data;
+          $scope.score     = ScoreCalculator.getScore($scope.character);
         },
         function (response) {
           SpinnerHelper.hideSpinner();
@@ -599,6 +681,7 @@ angular.module('wowpr.services', [])
   .service('ApiClient', ['$http', '$q', ApiClient])
   .service('CharacterDataHelper', [CharacterDataHelper])
   .service('ConfigManager', ['StorageEngine', ConfigManager])
+  .service('ScoreCalculator', [ScoreCalculator])
   .service('SpinnerHelper', [SpinnerHelper])
   .service('StorageEngine', ['$cookieStore', StorageEngine])
 ;
