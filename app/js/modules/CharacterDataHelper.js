@@ -14,6 +14,8 @@ var CharacterDataHelper = function() {
             .replace(/^[, ]|[, ]$/g, '');
         }
       }
+
+      return false;
     },
 
     /**

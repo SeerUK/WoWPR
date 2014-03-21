@@ -33,7 +33,7 @@
 <div class="char-info canvas canvas-padded canvas-following white" ng-if="character">
     <div class="name text-center"><h2 class="text-light">{{ character.name }}</h2></div>
     <div class="details text-center">
-        <span class="text-muted" nf-if="character.title">{{ character.title }}, </span>
+        <span class="text-muted" ng-show="character.title">{{ character.title }}, </span>
         <span class="class {{ character.classSlug }}"><strong>{{ character.level }}</strong> {{ character.className }}</span>
     </div>
 </div>
@@ -49,4 +49,11 @@
 
 <div id="chart" class="canvas canvas-padded slate">
     <p>Chart will go here</p>
+</div>
+
+<div class="scores">
+    <div class="canvas canvas-padded-s slate-dark">{{ score.gear }}</div>
+    <div class="canvas canvas-padded-s slate">{{ score.raids }}</div>
+    <div class="canvas canvas-padded-s slate-dark">{{ score.professions }}</div>
+    <div class="canvas canvas-padded-s slate">{{ score.achievements }}</div>
 </div>

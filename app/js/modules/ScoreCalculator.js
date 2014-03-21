@@ -23,7 +23,13 @@ var ScoreCalculator = function() {
         }
 
         if (typeof items[key] === 'object' && key != 'tabard') {
-          score += Math.round((items[key].itemLevel * 0.5) * items[key].quality);
+          var multiplier = 0.5;
+
+          if (key == 'mainHand' && typeof items['offHand'] == 'undefined') {
+            multiplier = 1;
+          }
+
+          score += Math.round((items[key].itemLevel * multiplier) * items[key].quality);
         }
       }
 
@@ -48,6 +54,24 @@ var ScoreCalculator = function() {
     },
 
     /**
+     * Get raid score
+     *
+     * @param  object character
+     * @return integer
+     */
+    getRaidScore: function(progression) {
+      var raids = progression.raids;
+      var score = 0;
+
+      for (var key in raids) {
+        score += raids[key].normal * 100;
+        score += raids[key].heroic * 100;
+      }
+
+      return score;
+    },
+
+    /**
      * Get all scores and total
      *
      * @param  object character
@@ -58,9 +82,10 @@ var ScoreCalculator = function() {
 
       var total  = 0;
       var scores = {
-        achievement: this.getAchievementScore(character),
-        gear:        this.getGearScore(character.items),
-        professions: this.getProfessionsScore(character.professions),
+        achievements: this.getAchievementScore(character),
+        gear:         this.getGearScore(character.items),
+        professions:  this.getProfessionsScore(character.professions),
+        raids:        this.getRaidScore(character.progression),
       };
 
       for (var key in scores) {
