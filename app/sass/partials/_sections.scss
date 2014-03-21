@@ -94,6 +94,14 @@ aside {
         padding: 48px;
     }
 
+    &.canvas-leading {
+        padding-bottom: 0;
+    }
+
+    &.canvas-following {
+        padding-top: 0;
+    }
+
     &.grey-lighter {
         background: $grey-lighter;
     }

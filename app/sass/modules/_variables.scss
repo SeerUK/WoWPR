@@ -2,7 +2,8 @@
  * Variables
  */
 
-// Colours
+// Colors
+// ======
 
 $white: #ffffff;
 $grey-lighter: #ecf0f1;
@@ -37,6 +38,8 @@ $organge-darker: #d35400;
 $red: #e74c3c;
 $red-dark: #c0392b;
 
+// Typography
+// ==========
 
 // Fonts
 
@@ -58,7 +61,7 @@ $font-weight-normal: 400;
 $font-weight-bold: 500;
 $font-weight-base: $font-weight-thin;
 
-// Typography
+// Contextual emphasis
 
 $text-muted: $grey;
 $text-warning: $orange;
@@ -67,3 +70,24 @@ $text-success: $green;
 $text-info: $blue;
 $text-turquoise: $turquoise;
 $text-color: $grey-darker;
+
+// Headings
+
+$headings-font-family: $font-family-sans-serif;
+$headings-font-weight: $font-weight-thin;
+$headings-line-height: 1.1;
+$headings-color: $grey-darker;
+
+$admin-headings-color: $white;
+
+$headings-small-font-weight: $font-weight-thin;
+$headings-small-color: $grey;
+
+$headings-strong-font-weight: $font-weight-normal;
+
+$font-size-h1: floor(($font-size-base * 2.6));
+$font-size-h2: floor(($font-size-base * 2.15));
+$font-size-h3: ceil(($font-size-base * 1.7));
+$font-size-h4: ceil(($font-size-base * 1.25));
+$font-size-h5: $font-size-base;
+$font-size-h6: ceil(($font-size-base * 0.85));

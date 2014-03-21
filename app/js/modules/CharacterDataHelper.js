@@ -1,6 +1,22 @@
 var CharacterDataHelper = function() {
   return {
     /**
+     * Get active title from array of titles
+     *
+     * @param  array  titles
+     * @return string
+     */
+    getActiveTitleFromTitles: function(titles) {
+      for (i = 0; i < titles.length; i++) {
+        if (typeof titles[i].selected !== "undefined" && titles[i].selected == true) {
+          return titles[i].name
+            .replace('%s', '')
+            .replace(/^[, ]|[, ]$/g, '');
+        }
+      }
+    },
+
+    /**
      * Get faction name by race id
      *
      * @param  integer id

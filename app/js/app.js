@@ -46,6 +46,21 @@ var ApiClient = function($http, $q) {
     },
 
     /**
+     * Find a characters full needed data set
+     *
+     * @param  string region
+     * @param  string realm
+     * @param  string name
+     * @return deferred
+     */
+    findFullCharacter: function(region, realm, name) {
+      return request(
+        region,
+        '/api/wow/character/' + realm + '/' + name + '?fields=titles'
+      );
+    },
+
+    /**
      * Find all realms
      *
      * @param  string region
@@ -62,6 +77,22 @@ var ApiClient = function($http, $q) {
 
 var CharacterDataHelper = function() {
   return {
+    /**
+     * Get active title from array of titles
+     *
+     * @param  array  titles
+     * @return string
+     */
+    getActiveTitleFromTitles: function(titles) {
+      for (i = 0; i < titles.length; i++) {
+        if (typeof titles[i].selected !== "undefined" && titles[i].selected == true) {
+          return titles[i].name
+            .replace('%s', '')
+            .replace(/^[, ]|[, ]$/g, '');
+        }
+      }
+    },
+
     /**
      * Get faction name by race id
      *
@@ -314,8 +345,6 @@ angular.module('wowpr.controllers', [])
               function(response) {
                 SpinnerHelper.hideSpinner();
 
-                console.log(JSON.stringify(response.data));
-
                 if (JSON.stringify(response.data) !== '{}') {
                   $scope.response = response.data;
                   $location.path('/character/' + $scope.formData.realm + '/' + $scope.formData.name);
@@ -393,8 +422,8 @@ angular.module('wowpr.controllers', [])
    * Character screen controller
    * @route /character/:realm/:name
    */
-  .controller('CharacterCtrl', ['$scope', '$http', '$location', '$routeParams', '$templateCache', 'ApiClient', 'ConfigManager', 'SpinnerHelper',
-    function($scope, $http, $location, $routeParams, $templateCache, ApiClient, ConfigManager, SpinnerHelper) {
+  .controller('CharacterCtrl', ['$scope', '$http', '$location', '$routeParams', '$templateCache', 'ApiClient', 'CharacterDataHelper', 'ConfigManager', 'SpinnerHelper',
+    function($scope, $http, $location, $routeParams, $templateCache, ApiClient, CharacterDataHelper, ConfigManager, SpinnerHelper) {
       // If config is not set up, send to homepage to get it set up properly
       if ( ! ConfigManager.get('region')) {
         $location.path('/');
@@ -405,10 +434,22 @@ angular.module('wowpr.controllers', [])
       action.region = ConfigManager.get('region');
       SpinnerHelper.showSpinner();
 
-      ApiClient.findCharacter(action.region, $routeParams.realm, $routeParams.name).then(
+      ApiClient.findFullCharacter(action.region, $routeParams.realm, $routeParams.name).then(
         function (response) {
           SpinnerHelper.hideSpinner();
+
+          // Augment character data
+          if (response.data.thumbnail) {
+            response.data.profileMain = response.data.thumbnail.replace("avatar.jpg", "profilemain.jpg");
+          }
+
+          response.data.region      = action.region;
+          response.data.factionName = CharacterDataHelper.getFactionNameByRaceId(response.data.race);
+          response.data.realmSlug   = $routeParams.realm;
+          response.data.title       = CharacterDataHelper.getActiveTitleFromTitles(response.data.titles);
+
           console.log(response.data);
+
           $scope.character = response.data;
         },
         function (response) {

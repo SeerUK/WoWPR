@@ -6,7 +6,7 @@
     </nav>
     <nav class="primary pull-right" ng-if="character">
         <ul>
-            <li><a href="#/"><i class="flaticon stroke share-1"></i></a></li>
+            <li><a href="http://{{ character.region }}.battle.net/wow/en/character/{{ character.realmSlug }}/{{ character.name }}/advanced" target="_blank"><i class="flaticon stroke share-1"></i></a></li>
         </ul>
     </nav>
     <div id="logo" class="canvas slate">
@@ -23,6 +23,18 @@
     <i class="flaticon stroke exclamation-point-1"></i><br />
     {{ error }}<br /><br />
     <a href="#/" class="btn btn-block btn-danger">Go Home</a>
+</div>
+
+<div class="char-preview {{ character.factionName }}">
+    <div ng-show="character.profileMain == null" class="image placeholder"></div>
+    <div ng-if="character.profileMain" class="image" style="background-image: url(http://{{ character.region }}.battle.net/static-render/{{ character.region }}/{{ character.profileMain }}?alt=/wow/static/images/2d/profilemain/race/{{ character.race }}-{{ character.gender }}.jpg)"></div>
+</div>
+
+<div class="canvas canvas-padded canvas-following white">
+    <div class="name text-center"><h2 class="text-light">{{ character.name }}</h2></div>
+    <div class="details">
+        <span nf-if="character.title">{{ character.title }}</span>
+    </div>
 </div>
 
 <div class="canvas canvas-padded grey-lighter">
