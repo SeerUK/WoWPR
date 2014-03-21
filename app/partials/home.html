@@ -30,7 +30,7 @@
 
 <div class="char-preview {{ character.factionName }}">
     <div ng-show="character.profileMain == null" class="image placeholder"></div>
-    <div ng-if="character.profileMain" class="image" style="background-image: url(http://{{ region }}.battle.net/static-render/{{ region }}/{{ character.profileMain }})"></div>
+    <div ng-if="character.profileMain" class="image" style="background-image: url(http://{{ region }}.battle.net/static-render/{{ region }}/{{ character.profileMain }}?alt=/wow/static/images/2d/profilemain/race/{{ character.race }}-{{ character.gender }}.jpg)"></div>
 </div>
 
 <div class="canvas canvas-padded grey-lighter">
