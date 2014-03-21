@@ -6,6 +6,7 @@ angular.module('wowpr', [
   'ngAnimate',
   'ngCookies',
   'ngRoute',
+  'highcharts-ng',
   'wowpr.filters',
   'wowpr.services',
   'wowpr.directives',

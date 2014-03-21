@@ -25,59 +25,61 @@
     <a href="#/" class="btn btn-block btn-danger">Go Home</a>
 </div>
 
-<div class="char-preview {{ character.factionName }}" ng-if="character">
-    <div ng-show="character.profileMain == null" class="image placeholder"></div>
-    <div ng-if="character.profileMain" class="image" style="background-image: url(http://{{ character.region }}.battle.net/static-render/{{ character.region }}/{{ character.profileMain }}?alt=/wow/static/images/2d/profilemain/race/{{ character.race }}-{{ character.gender }}.jpg)"></div>
-</div>
-
-<div class="char-info canvas canvas-padded canvas-following white" ng-if="character">
-    <div class="name text-center"><h2 class="text-light">{{ character.name }}</h2></div>
-    <div class="details text-center">
-        <span class="text-muted" ng-show="character.title">{{ character.title }}, </span>
-        <span class="class {{ character.classSlug }}"><strong>{{ character.level }}</strong> {{ character.className }}</span>
+<div ng-if="character">
+    <div class="char-preview {{ character.factionName }}">
+        <div ng-show="character.profileMain == null" class="image placeholder"></div>
+        <div ng-if="character.profileMain" class="image" style="background-image: url(http://{{ character.region }}.battle.net/static-render/{{ character.region }}/{{ character.profileMain }}?alt=/wow/static/images/2d/profilemain/race/{{ character.race }}-{{ character.gender }}.jpg)"></div>
     </div>
-</div>
 
-<div class="score-overview canvas canvas-padded-s grey-lighter">
-    <table class="table-fixed">
-        <tr>
-            <td class="text-center"><span class="score">{{ scores.total | number }}</span><br /><span class="label">Score</span></td>
-            <td class="text-center"><span class="score">{{ character.items.averageItemLevelEquipped | number }}</span><br /><span class="label">Item Level</span></td>
-        </tr>
-    </table>
-</div>
-
-<div id="chart" class="canvas canvas-padded slate">
-    <p>Chart will go here</p>
-</div>
-
-<div class="scores">
-    <div class="gear canvas canvas-padded-s slate-dark">
-        <span class="name"><strong>Gear</strong></span>
-        <div class="pull-right">
-            <strong>{{ scores.gear.score }}</strong>
-            <span class="percentage text-muted">{{ scores.gear.percentage }}%</span>
+    <div class="char-info canvas canvas-padded canvas-following white">
+        <div class="name text-center"><h2 class="text-light">{{ character.name }}</h2></div>
+        <div class="details text-center">
+            <span class="text-muted" ng-show="character.title">{{ character.title }}, </span>
+            <span class="class {{ character.classSlug }}"><strong>{{ character.level }}</strong> {{ character.className }}</span>
         </div>
     </div>
-    <div class="raids canvas canvas-padded-s slate">
-        <span class="name"><strong>Raids</strong></span>
-        <div class="pull-right">
-            <strong>{{ scores.raids.score }}</strong>
-            <span class="percentage text-muted">{{ scores.raids.percentage }}%</span>
-        </div>
+
+    <div class="score-overview canvas canvas-padded-s grey-lighter">
+        <table class="table-fixed">
+            <tr>
+                <td class="text-center"><span class="score">{{ scores.total | number }}</span><br /><span class="label">Score</span></td>
+                <td class="text-center"><span class="score">{{ character.items.averageItemLevelEquipped | number }}</span><br /><span class="label">Item Level</span></td>
+            </tr>
+        </table>
     </div>
-    <div class="professions canvas canvas-padded-s slate-dark">
-        <span class="name"><strong>Professions</strong></span>
-        <div class="pull-right">
-            <strong>{{ scores.professions.score }}</strong>
-            <span class="percentage text-muted">{{ scores.professions.percentage }}%</span>
-        </div>
+
+    <div class="canvas canvas-padded slate">
+        <highchart id="scoreChart" class="scoreChart" config="scoreChartConfig"></highchart>
     </div>
-    <div class="achievements canvas canvas-padded-s slate">
-        <span class="name"><strong>Achievements</strong></span>
-        <div class="pull-right">
-            <strong>{{ scores.achievements.score }}</strong>
-            <span class="percentage text-muted">{{ scores.achievements.percentage }}%</span>
+
+    <div class="scores">
+        <div class="gear canvas canvas-padded-s slate-dark">
+            <span class="name"><strong>Gear</strong></span>
+            <div class="pull-right">
+                <strong>{{ scores.gear.score }}</strong>
+                <span class="percentage text-muted">{{ scores.gear.percentage }}%</span>
+            </div>
+        </div>
+        <div class="raids canvas canvas-padded-s slate">
+            <span class="name"><strong>Raids</strong></span>
+            <div class="pull-right">
+                <strong>{{ scores.raids.score }}</strong>
+                <span class="percentage text-muted">{{ scores.raids.percentage }}%</span>
+            </div>
+        </div>
+        <div class="professions canvas canvas-padded-s slate-dark">
+            <span class="name"><strong>Professions</strong></span>
+            <div class="pull-right">
+                <strong>{{ scores.professions.score }}</strong>
+                <span class="percentage text-muted">{{ scores.professions.percentage }}%</span>
+            </div>
+        </div>
+        <div class="achievements canvas canvas-padded-s slate">
+            <span class="name"><strong>Achievements</strong></span>
+            <div class="pull-right">
+                <strong>{{ scores.achievements.score }}</strong>
+                <span class="percentage text-muted">{{ scores.achievements.percentage }}%</span>
+            </div>
         </div>
     </div>
 </div>

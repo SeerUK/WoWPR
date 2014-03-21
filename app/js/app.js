@@ -362,8 +362,6 @@ var ScoreCalculator = function() {
         total += scores[key];
       }
 
-      // (x / total) * 100 = percentage of total
-
       // Must be calculated after total
       for (var key in scores) {
         scores[key] = {
@@ -373,8 +371,6 @@ var ScoreCalculator = function() {
       }
 
       scores.total = total;
-
-      console.log(scores);
 
       return scores;
     }
@@ -473,6 +469,7 @@ angular.module('wowpr', [
   'ngAnimate',
   'ngCookies',
   'ngRoute',
+  'highcharts-ng',
   'wowpr.filters',
   'wowpr.services',
   'wowpr.directives',
@@ -633,11 +630,55 @@ angular.module('wowpr.controllers', [])
           response.data.realmSlug   = $routeParams.realm;
           response.data.title       = CharacterDataHelper.getActiveTitleFromTitles(response.data.titles);
 
-          // console.log(response.data);
-          // console.log(ScoreCalculator.getScore($scope.character));
+          $scope.jsonString = JSON.stringify({
+            test: 'test'
+          });
 
           $scope.character = response.data;
           $scope.scores    = ScoreCalculator.getScore($scope.character);
+
+          // Set up chart
+          $scope.scoreChartConfig = {
+            options: {
+              chart: {
+                backgroundColor: null,
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: null
+              },
+              colors: [
+                '#3498db',
+                '#9b59b6',
+                '#e74c3c',
+                '#1abc9c',
+              ],
+              plotOptions: {
+                pie: {
+                  borderColor: '#34495e',
+                  borderWidth: '3px',
+                  dataLabels: {
+                    enabled: false
+                  }
+                }
+              }
+            },
+            series: [{
+              type: 'pie',
+              data: [
+                ['Gear', $scope.scores.gear.percentage],
+                ['Raids', $scope.scores.raids.percentage],
+                ['Professions', $scope.scores.professions.percentage],
+                ['Achievements', $scope.scores.achievements.percentage]
+              ]
+            }],
+            title: {
+              text: ''
+            },
+            credits: {
+              enabled: false
+            },
+            loading: false
+          }
         },
         function (response) {
           SpinnerHelper.hideSpinner();

@@ -90,8 +90,6 @@ var ScoreCalculator = function() {
         total += scores[key];
       }
 
-      // (x / total) * 100 = percentage of total
-
       // Must be calculated after total
       for (var key in scores) {
         scores[key] = {
@@ -101,8 +99,6 @@ var ScoreCalculator = function() {
       }
 
       scores.total = total;
-
-      console.log(scores);
 
       return scores;
     }
