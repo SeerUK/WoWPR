@@ -1,0 +1,23 @@
+/**
+ * Scores
+ */
+
+// Score Overview
+
+.score-overview {
+    .score,
+    .label {
+        color: $grey-darker;
+    }
+
+    .score {
+        display: inline-block;
+        font-weight: $font-weight-light;
+        font-size: 36px;
+        margin-bottom: 6px;
+    }
+
+    .label {
+        font-weight: $font-weight-thin;
+    }
+}
