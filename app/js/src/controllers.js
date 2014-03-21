@@ -82,7 +82,7 @@ angular.module('wowpr.controllers', [])
             response.data.profileMain = response.data.thumbnail.replace("avatar.jpg", "profilemain.jpg");
           }
 
-          response.data.factionName = CharacterDataHelper.getFactionNameByRaceId(response.data.race);
+          response.data.factionName = CharacterDataHelper.getFactionByRaceId(response.data.race);
           $scope.character = response.data;
         }, function() {
           SpinnerHelper.hideSpinner();
@@ -140,8 +140,9 @@ angular.module('wowpr.controllers', [])
             response.data.profileMain = response.data.thumbnail.replace("avatar.jpg", "profilemain.jpg");
           }
 
+          response.data.className   = CharacterDataHelper.getClassNameById(response.data.class);
+          response.data.factionName = CharacterDataHelper.getFactionByRaceId(response.data.race);
           response.data.region      = action.region;
-          response.data.factionName = CharacterDataHelper.getFactionNameByRaceId(response.data.race);
           response.data.realmSlug   = $routeParams.realm;
           response.data.title       = CharacterDataHelper.getActiveTitleFromTitles(response.data.titles);
 

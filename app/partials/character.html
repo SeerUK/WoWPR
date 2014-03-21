@@ -25,15 +25,16 @@
     <a href="#/" class="btn btn-block btn-danger">Go Home</a>
 </div>
 
-<div class="char-preview {{ character.factionName }}">
+<div class="char-preview {{ character.factionName }}" ng-if="character">
     <div ng-show="character.profileMain == null" class="image placeholder"></div>
     <div ng-if="character.profileMain" class="image" style="background-image: url(http://{{ character.region }}.battle.net/static-render/{{ character.region }}/{{ character.profileMain }}?alt=/wow/static/images/2d/profilemain/race/{{ character.race }}-{{ character.gender }}.jpg)"></div>
 </div>
 
-<div class="canvas canvas-padded canvas-following white">
+<div class="char-info canvas canvas-padded canvas-following white" ng-if="character">
     <div class="name text-center"><h2 class="text-light">{{ character.name }}</h2></div>
-    <div class="details">
-        <span nf-if="character.title">{{ character.title }}</span>
+    <div class="details text-center">
+        <span class="text-muted" nf-if="character.title">{{ character.title }}, </span>
+        <span class="class {{ character.classSlug }}"><strong>{{ character.level }}</strong> {{ character.className }}</span>
     </div>
 </div>
 

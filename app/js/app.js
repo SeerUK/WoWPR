@@ -94,12 +94,47 @@ var CharacterDataHelper = function() {
     },
 
     /**
+     * Get class name by id
+     *
+     * @param  integer id
+     * @return string
+     */
+    getClassNameById: function(id) {
+      switch (id) {
+        case 1:
+          return 'Warrior';
+        case 2:
+          return 'Paladin';
+        case 3:
+          return 'Hunter';
+        case 4:
+          return 'Rogue';
+        case 5:
+          return 'Priest';
+        case 6:
+          return 'Death Knight';
+        case 7:
+          return 'Shaman';
+        case 8:
+          return 'Mage';
+        case 9:
+          return 'Warlock';
+        case 10:
+          return 'Monk';
+        case 11:
+          return 'Druid';
+        default:
+          return 'Not implemented';
+      }
+    },
+
+    /**
      * Get faction name by race id
      *
      * @param  integer id
      * @return string
      */
-    getFactionNameByRaceId: function(id) {
+    getFactionByRaceId: function(id) {
       switch (id) {
         case 1:  // Human
         case 3:  // Dwarf
@@ -118,7 +153,7 @@ var CharacterDataHelper = function() {
         case 26: // Horde Pandaren
           return 'horde';
         default:
-          return false;
+          return 'Not implemented';
       }
     },
 
@@ -158,7 +193,7 @@ var CharacterDataHelper = function() {
         case 26:
           return 'pandaren';
         default:
-          return false;
+          return 'Not implemented';
       }
     }
   }
@@ -385,7 +420,7 @@ angular.module('wowpr.controllers', [])
             response.data.profileMain = response.data.thumbnail.replace("avatar.jpg", "profilemain.jpg");
           }
 
-          response.data.factionName = CharacterDataHelper.getFactionNameByRaceId(response.data.race);
+          response.data.factionName = CharacterDataHelper.getFactionByRaceId(response.data.race);
           $scope.character = response.data;
         }, function() {
           SpinnerHelper.hideSpinner();
@@ -443,8 +478,9 @@ angular.module('wowpr.controllers', [])
             response.data.profileMain = response.data.thumbnail.replace("avatar.jpg", "profilemain.jpg");
           }
 
+          response.data.className   = CharacterDataHelper.getClassNameById(response.data.class);
+          response.data.factionName = CharacterDataHelper.getFactionByRaceId(response.data.race);
           response.data.region      = action.region;
-          response.data.factionName = CharacterDataHelper.getFactionNameByRaceId(response.data.race);
           response.data.realmSlug   = $routeParams.realm;
           response.data.title       = CharacterDataHelper.getActiveTitleFromTitles(response.data.titles);
 
