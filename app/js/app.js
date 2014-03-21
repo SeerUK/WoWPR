@@ -340,6 +340,8 @@ angular.module('wowpr.controllers', [])
           SpinnerHelper.hideSpinner();
 
           response.data.profileMain = response.data.thumbnail.replace("avatar.jpg", "profilemain.jpg");
+          response.data.factionName = CharacterDataHelper.getFactionNameByRaceId(response.data.race);
+          console.log(response.data);
           $scope.character = response.data;
         }, function() {
           SpinnerHelper.hideSpinner();

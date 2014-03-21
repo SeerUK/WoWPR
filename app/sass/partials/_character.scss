@@ -22,6 +22,40 @@
     height: 210px;
     padding: 24px;
 
+    &.alliance {
+        background-image: -webkit-gradient(
+            linear,
+            left top,
+            left bottom,
+            color-stop(0, $blue),
+            color-stop(0.5, $blue),
+            color-stop(0.5, $white),
+            color-stop(1, $white)
+        );
+        background-image: -o-linear-gradient(bottom, $blue 0%, $blue 50%, $white 50%, $white 100%);
+        background-image: -moz-linear-gradient(bottom, $blue 0%, $blue 50%, $white 50%, $white 100%);
+        background-image: -webkit-linear-gradient(bottom, $blue 0%, $blue 50%, $white 50%, $white 100%);
+        background-image: -ms-linear-gradient(bottom, $blue 0%, $blue 50%, $white 50%, $white 100%);
+        background-image: linear-gradient(to bottom, $blue 0%, $blue 50%, $white 50%, $white 100%);
+    }
+
+    &.horde {
+        background-image: -webkit-gradient(
+            linear,
+            left top,
+            left bottom,
+            color-stop(0, $red),
+            color-stop(0.5, $red),
+            color-stop(0.5, $white),
+            color-stop(1, $white)
+        );
+        background-image: -o-linear-gradient(bottom, $red 0%, $red 50%, $white 50%, $white 100%);
+        background-image: -moz-linear-gradient(bottom, $red 0%, $red 50%, $white 50%, $white 100%);
+        background-image: -webkit-linear-gradient(bottom, $red 0%, $red 50%, $white 50%, $white 100%);
+        background-image: -ms-linear-gradient(bottom, $red 0%, $red 50%, $white 50%, $white 100%);
+        background-image: linear-gradient(to bottom, $red 0%, $red 50%, $white 50%, $white 100%);
+    }
+
     .image {
         border: solid 5px $white;
         height: 200px;
