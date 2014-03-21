@@ -141,6 +141,7 @@ angular.module('wowpr.controllers', [])
           }
 
           response.data.className   = CharacterDataHelper.getClassNameById(response.data.class);
+          response.data.classSlug   = CharacterDataHelper.getClassSlugById(response.data.class);
           response.data.factionName = CharacterDataHelper.getFactionByRaceId(response.data.race);
           response.data.region      = action.region;
           response.data.realmSlug   = $routeParams.realm;

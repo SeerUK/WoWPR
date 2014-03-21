@@ -129,6 +129,41 @@ var CharacterDataHelper = function() {
     },
 
     /**
+     * Get class slug by id
+     *
+     * @param  integer id
+     * @return string
+     */
+    getClassSlugById: function(id) {
+      switch (id) {
+        case 1:
+          return 'warrior';
+        case 2:
+          return 'paladin';
+        case 3:
+          return 'hunter';
+        case 4:
+          return 'rogue';
+        case 5:
+          return 'priest';
+        case 6:
+          return 'death-knight';
+        case 7:
+          return 'shaman';
+        case 8:
+          return 'mage';
+        case 9:
+          return 'warlock';
+        case 10:
+          return 'monk';
+        case 11:
+          return 'druid';
+        default:
+          return 'Not implemented';
+      }
+    },
+
+    /**
      * Get faction name by race id
      *
      * @param  integer id
@@ -479,6 +514,7 @@ angular.module('wowpr.controllers', [])
           }
 
           response.data.className   = CharacterDataHelper.getClassNameById(response.data.class);
+          response.data.classSlug   = CharacterDataHelper.getClassSlugById(response.data.class);
           response.data.factionName = CharacterDataHelper.getFactionByRaceId(response.data.race);
           response.data.region      = action.region;
           response.data.realmSlug   = $routeParams.realm;
