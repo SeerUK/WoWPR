@@ -29,7 +29,13 @@ var CharacterDataHelper = function() {
       }
     },
 
-    getRaceById: function() {
+    /**
+     * Get race by id
+     *
+     * @param  integer id
+     * @return string
+     */
+    getRaceById: function(id) {
       switch (id) {
         case 1:
           return 'human';
